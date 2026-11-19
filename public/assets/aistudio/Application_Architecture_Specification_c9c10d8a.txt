@@ -1,0 +1,1483 @@
+# NEXADESK
+## APPLICATION ARCHITECTURE SPECIFICATION (AAS)
+**Version:** 1.0  
+**Product:** NexaDesk — Personal Business Management Platform  
+**Tagline:** One Platform. Complete Business Control.  
+**Architecture Type:** Frontend-only, Local-first Web Application  
+**Status:** Architecture Specification
+
+---
+
+# 1. INTRODUCTION
+
+## 1.1 Purpose
+
+Application Architecture Specification (AAS) merupakan dokumen teknis yang menjelaskan struktur internal, teknologi, komponen, pengelolaan data, serta hubungan antarmodul dalam aplikasi NexaDesk.
+
+Dokumen ini menjadi pedoman utama dalam proses pengembangan agar seluruh fitur dapat bekerja secara terintegrasi, konsisten, dan mudah dikembangkan.
+
+NexaDesk dirancang sebagai aplikasi manajemen bisnis yang dapat digunakan oleh pemilik usaha kecil dan menengah untuk mengelola aktivitas operasional bisnis dalam satu platform.
+
+## 1.2 Architectural Goals
+
+Arsitektur NexaDesk memiliki beberapa tujuan utama:
+
+1. **Modular:** Setiap modul memiliki tanggung jawab yang jelas dan tidak bergantung secara berlebihan pada modul lain.
+2. **Consistent:** Seluruh halaman menggunakan sumber data yang sama sehingga perubahan data langsung tercermin pada bagian aplikasi yang relevan.
+3. **Maintainable:** Struktur kode mudah dipahami, diperbaiki, dan dikembangkan.
+4. **Scalable:** Arsitektur memungkinkan penambahan backend dan database pada pengembangan berikutnya.
+5. **Reliable:** Operasi bisnis penting, seperti checkout dan pembatalan transaksi, harus menjaga konsistensi data.
+6. **Local-first:** Data bisnis disimpan pada perangkat pengguna tanpa memerlukan server database.
+7. **User-friendly:** Proses pengelolaan data, pencadangan, dan pemulihan harus mudah digunakan.
+
+## 1.3 Architectural Scope
+
+Versi awal NexaDesk merupakan aplikasi frontend-only.
+
+Artinya:
+- Tidak menggunakan backend server khusus.
+- Tidak menggunakan database online.
+- Tidak memerlukan koneksi internet untuk fungsi operasional utama setelah aplikasi tersedia.
+- Data disimpan secara lokal menggunakan browser Local Storage.
+- Seluruh proses bisnis dijalankan melalui TypeScript pada sisi frontend.
+- Ekspor dan impor data dilakukan langsung dari browser.
+
+Beberapa fitur eksternal, seperti AI Assistant berbasis Gemini, bersifat opsional dan memiliki keterbatasan keamanan jika diakses langsung dari frontend.
+
+---
+
+# 2. SYSTEM ARCHITECTURE OVERVIEW
+
+## 2.1 Architecture Pattern
+
+NexaDesk menggunakan pendekatan **Modular Frontend Architecture** dengan pemisahan tanggung jawab berdasarkan beberapa lapisan.
+
+Arsitektur ini terdiri dari:
+
+1. Presentation Layer
+2. Application Layer
+3. Business Logic Layer
+4. Data Access Layer
+5. Local Storage Layer
+
+Setiap lapisan memiliki fungsi tersendiri agar kode tidak bercampur antara tampilan, proses bisnis, dan pengelolaan data.
+
+## 2.2 High-Level Architecture
+
+Alur komunikasi utama aplikasi:
+
+User Interaction → Presentation Layer → Application Layer → Business Logic Layer → Data Access Layer → Local Storage.
+
+Data yang diperbarui kemudian dikirim kembali melalui state management sehingga seluruh komponen yang membutuhkan data tersebut dapat diperbarui.
+
+### Layer Responsibilities
+
+**A. Presentation Layer**
+
+Bertanggung jawab atas seluruh tampilan dan interaksi pengguna.
+
+Contoh:
+- Dashboard
+- POS Interface
+- Inventory Table
+- Finance Dashboard
+- Customer Management
+- Reports
+- Settings
+
+Presentation Layer tidak boleh melakukan manipulasi Local Storage secara langsung.
+
+**B. Application Layer**
+
+Mengatur alur penggunaan fitur dan menghubungkan antarmuka dengan proses bisnis.
+
+Contoh:
+- Checkout Handler
+- Product Form Handler
+- Inventory Adjustment Handler
+- Expense Creation Handler
+- Data Import Handler
+
+**C. Business Logic Layer**
+
+Menangani aturan dan perhitungan bisnis.
+
+Contoh:
+- Menghitung subtotal dan total transaksi.
+- Memvalidasi ketersediaan stok.
+- Menghitung laba dan rugi.
+- Menghitung nilai persediaan.
+- Memproses pembatalan transaksi.
+- Memperbarui statistik pelanggan.
+
+**D. Data Access Layer**
+
+Menjadi perantara antara aplikasi dan media penyimpanan.
+
+Tanggung jawab:
+- Membaca data.
+- Menyimpan data.
+- Memperbarui data.
+- Menghapus atau mengarsipkan data sesuai aturan.
+- Melakukan validasi struktur data.
+- Mengelola backup dan restore.
+
+**E. Local Storage Layer**
+
+Merupakan tempat penyimpanan data utama NexaDesk pada browser pengguna.
+
+Media penyimpanan:
+- Browser Local Storage.
+
+Seluruh data bisnis utama disimpan dalam satu struktur data aplikasi yang terorganisasi.
+
+## 2.3 Architecture Diagram
+
+```text
+┌──────────────────────────────────────────────┐
+│                   USER                       │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│              PRESENTATION LAYER              │
+│                                              │
+│ Dashboard | POS | Inventory | Finance        │
+│ Employees | Customers | Reports | Settings   │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│              APPLICATION LAYER               │
+│                                              │
+│ Actions | Handlers | Hooks | State Management│
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│             BUSINESS LOGIC LAYER             │
+│                                              │
+│ Transaction | Inventory | Finance | Customer │
+│ Validation | Calculation | Reporting        │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│               DATA ACCESS LAYER              │
+│                                              │
+│ Storage Service | Data Validation            │
+│ Import | Export | Backup | Restore            │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│              LOCAL STORAGE                   │
+│                                              │
+│         Browser Local Storage                │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+# 3. TECHNOLOGY STACK
+
+## 3.1 Core Technologies
+
+NexaDesk menggunakan teknologi berikut:
+
+| Technology | Purpose |
+|---|---|
+| React | Frontend framework |
+| TypeScript | Type safety |
+| Vite | Development and build tool |
+| Tailwind CSS | Styling |
+| React Router | Navigation and routing |
+| Recharts | Data visualization |
+| Lucide React | Icon library |
+| React Hook Form | Form management |
+| Zod | Data validation |
+| date-fns | Date formatting and manipulation |
+| UUID | Unique identifier generation |
+| SheetJS (xlsx) | Excel export and import |
+| Local Storage | Local data persistence |
+
+## 3.2 Supporting Libraries
+
+Library tambahan dapat digunakan apabila memang dibutuhkan:
+
+- Zustand atau React Context untuk global state management.
+- Sonner atau library sejenis untuk toast notifications.
+- clsx untuk conditional CSS classes.
+- Tailwind Merge untuk pengelolaan utility classes.
+
+Penggunaan library harus tetap mempertimbangkan ukuran aplikasi dan kebutuhan fungsional.
+
+## 3.3 Technology Constraints
+
+Pengembangan awal harus mempertahankan prinsip berikut:
+
+1. Tidak menambahkan backend hanya untuk menjalankan fungsi dasar.
+2. Tidak menggunakan layanan database cloud.
+3. Tidak menyimpan API key permanen di source code frontend.
+4. Tidak membuat sistem autentikasi frontend seolah-olah merupakan sistem keamanan produksi.
+5. Tidak membuat data tiruan sebagai pengganti fungsi operasional yang seharusnya berjalan.
+
+---
+
+# 4. APPLICATION MODULE ARCHITECTURE
+
+NexaDesk memiliki sembilan modul utama.
+
+## 4.1 Overview Dashboard
+
+Dashboard bertugas menyajikan ringkasan kondisi bisnis.
+
+Data yang ditampilkan berasal dari:
+- Transactions
+- Products
+- Inventory Movements
+- Expenses
+- Income
+- Customers
+
+Dashboard tidak menyimpan salinan data transaksi atau inventaris secara terpisah.
+
+Seluruh angka dihitung berdasarkan sumber data operasional yang sebenarnya.
+
+Komponen utama:
+- Total Revenue
+- Total Expenses
+- Net Profit
+- Total Transactions
+- Sales Chart
+- Revenue Breakdown
+- Top Selling Products
+- Recent Transactions
+- Low Stock Alerts
+
+## 4.2 Point of Sale (POS)
+
+POS merupakan modul yang menangani transaksi penjualan.
+
+Tanggung jawab:
+- Menampilkan daftar produk.
+- Melakukan pencarian produk.
+- Memilih kategori.
+- Menambahkan produk ke keranjang.
+- Mengubah jumlah barang.
+- Menghitung subtotal.
+- Menghitung diskon dan pajak jika diaktifkan.
+- Memilih pelanggan.
+- Memilih metode pembayaran.
+- Menyelesaikan transaksi.
+- Membuat bukti transaksi.
+
+POS harus menggunakan data produk dan stok dari sumber data utama.
+
+POS tidak boleh membuat daftar produk atau stok tersendiri yang tidak terhubung dengan modul Inventory.
+
+## 4.3 Inventory Management
+
+Inventory bertugas mengelola seluruh persediaan produk.
+
+Fitur:
+- Product Management
+- Category Management
+- Supplier Management
+- Stock In
+- Stock Out
+- Stock Adjustment
+- Stock Return
+- Low Stock Monitoring
+- Inventory Movement History
+
+Setiap perubahan stok wajib menghasilkan catatan Inventory Movement.
+
+Contohnya:
+- Penjualan menghasilkan Stock Out.
+- Pembelian atau penerimaan barang menghasilkan Stock In.
+- Penyesuaian menghasilkan Adjustment.
+- Pembatalan transaksi menghasilkan Stock In sebagai pengembalian stok.
+
+## 4.4 Financial Management
+
+Finance bertanggung jawab atas pencatatan dan analisis keuangan.
+
+Submodul:
+- Revenue
+- Expenses
+- Other Income
+- Profit and Loss
+- Cash Flow
+- Financial Summary
+
+Pendapatan dari POS harus dihitung berdasarkan transaksi penjualan yang valid.
+
+**Penting:** Modul Finance tidak boleh mencatat ulang transaksi POS sebagai pendapatan manual karena dapat menyebabkan pendapatan dihitung dua kali.
+
+Pengeluaran dan pemasukan lain di luar transaksi POS dicatat melalui entitas tersendiri.
+
+Perhitungan keuangan juga harus membedakan laba rugi dan arus kas.
+
+## 4.5 Employee Management
+
+Mengelola data karyawan.
+
+Data:
+- Employee ID
+- Full Name
+- Position
+- Contact
+- Employment Status
+- Join Date
+- Salary (optional)
+
+Karyawan yang pernah melakukan transaksi tidak boleh dihapus permanen apabila masih direferensikan oleh riwayat transaksi.
+
+## 4.6 Customer Management
+
+Mengelola informasi pelanggan.
+
+Data:
+- Customer ID
+- Name
+- Contact
+- Email (optional)
+- Address (optional)
+- Total Transactions
+- Total Spending
+- Last Purchase
+
+Statistik pelanggan dihitung berdasarkan transaksi yang valid dan terhubung dengan pelanggan tersebut.
+
+## 4.7 Reports and Analytics
+
+Reports menyajikan informasi berdasarkan data operasional.
+
+Jenis laporan:
+- Sales Report
+- Product Performance
+- Inventory Report
+- Expense Report
+- Profit and Loss Report
+- Customer Report
+- Employee Performance
+
+Laporan harus menggunakan sumber data yang sama dengan Dashboard dan Finance.
+
+## 4.8 AI Business Assistant
+
+AI Assistant membantu pengguna memahami kondisi bisnis.
+
+Kemampuan:
+- Menganalisis ringkasan penjualan.
+- Mengidentifikasi produk terlaris.
+- Memberikan insight stok.
+- Membantu memahami pengeluaran.
+- Menjawab pertanyaan berdasarkan ringkasan data bisnis.
+
+AI tidak boleh membuat angka yang tidak berasal dari data aplikasi.
+
+Untuk versi frontend-only, AI dapat memiliki Demo Mode menggunakan respons yang telah ditentukan.
+
+Integrasi Gemini secara langsung dari browser tidak direkomendasikan untuk penggunaan produksi karena API key dapat terekspos.
+
+Integrasi AI yang aman memerlukan backend atau proxy yang menjaga API key.
+
+## 4.9 Settings and Data Management
+
+Mengatur konfigurasi bisnis dan data aplikasi.
+
+Fitur:
+- Business Profile
+- Application Preferences
+- Currency Settings
+- Tax Settings
+- Notification Preferences
+- JSON Export
+- JSON Import
+- Excel Export
+- Data Backup
+- Data Restore
+- Reset Application Data
+
+---
+
+# 5. PROJECT FOLDER STRUCTURE
+
+Struktur folder harus modular, konsisten, dan mudah dikembangkan.
+
+```text
+nexadesk/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── assets/
+│   │   ├── images/
+│   │   └── icons/
+│   │
+│   ├── components/
+│   │   ├── ui/
+│   │   ├── layout/
+│   │   ├── common/
+│   │   ├── charts/
+│   │   └── tables/
+│   │
+│   ├── layouts/
+│   │   ├── AppLayout.tsx
+│   │   └── AuthLayout.tsx
+│   │
+│   ├── pages/
+│   │   ├── Dashboard/
+│   │   ├── POS/
+│   │   ├── Inventory/
+│   │   ├── Finance/
+│   │   ├── Employees/
+│   │   ├── Customers/
+│   │   ├── Reports/
+│   │   ├── AI/
+│   │   └── Settings/
+│   │
+│   ├── features/
+│   │   ├── transactions/
+│   │   ├── products/
+│   │   ├── inventory/
+│   │   ├── finance/
+│   │   ├── employees/
+│   │   ├── customers/
+│   │   └── reports/
+│   │
+│   ├── services/
+│   │   ├── storageService.ts
+│   │   ├── transactionService.ts
+│   │   ├── productService.ts
+│   │   ├── inventoryService.ts
+│   │   ├── financeService.ts
+│   │   ├── customerService.ts
+│   │   ├── reportService.ts
+│   │   ├── exportService.ts
+│   │   └── importService.ts
+│   │
+│   ├── store/
+│   │   ├── appStore.ts
+│   │   └── selectors.ts
+│   │
+│   ├── hooks/
+│   │
+│   ├── types/
+│   │   ├── business.ts
+│   │   ├── product.ts
+│   │   ├── transaction.ts
+│   │   ├── inventory.ts
+│   │   ├── customer.ts
+│   │   ├── employee.ts
+│   │   ├── finance.ts
+│   │   └── common.ts
+│   │
+│   ├── schemas/
+│   │
+│   ├── utils/
+│   │   ├── currency.ts
+│   │   ├── date.ts
+│   │   ├── calculations.ts
+│   │   ├── formatters.ts
+│   │   └── validators.ts
+│   │
+│   ├── data/
+│   │   └── demoData.ts
+│   │
+│   ├── constants/
+│   │
+│   ├── routes/
+│   │   └── AppRoutes.tsx
+│   │
+│   ├── styles/
+│   │   └── globals.css
+│   │
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── index.html
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+```
+
+### Folder Responsibilities
+
+**components/**  
+Berisi komponen UI yang dapat digunakan kembali.
+
+**pages/**  
+Berisi halaman utama yang ditampilkan melalui routing.
+
+**features/**  
+Berisi implementasi fitur berdasarkan domain bisnis.
+
+**services/**  
+Berisi operasi data dan proses bisnis.
+
+**store/**  
+Mengelola global application state.
+
+**types/**  
+Mendefinisikan tipe data TypeScript.
+
+**schemas/**  
+Berisi validasi struktur data menggunakan Zod.
+
+**utils/**  
+Berisi fungsi bantuan yang dapat digunakan oleh berbagai modul.
+
+**data/**  
+Berisi data awal dan demo data.
+
+---
+
+# 6. DATA ARCHITECTURE
+
+## 6.1 Data Storage Strategy
+
+NexaDesk menggunakan Local Storage sebagai penyimpanan utama.
+
+Key utama:
+
+`nexadesk_data`
+
+Seluruh data bisnis disimpan dalam satu objek JSON terstruktur.
+
+Keuntungan pendekatan ini:
+- Struktur data terpusat.
+- Backup lebih sederhana.
+- Import dan restore lebih mudah.
+- Relasi antarentitas dapat dipertahankan.
+- Tidak membutuhkan server database.
+
+Namun, Local Storage memiliki keterbatasan kapasitas dan hanya tersedia pada browser serta origin yang sama.
+
+Data tidak otomatis tersinkronisasi antarperangkat.
+
+## 6.2 Root Data Structure
+
+Struktur data utama:
+
+```typescript
+interface NexaDeskData {
+  schemaVersion: number;
+  business: Business;
+  settings: AppSettings;
+
+  products: Product[];
+  categories: Category[];
+  suppliers: Supplier[];
+
+  inventoryMovements: InventoryMovement[];
+
+  transactions: Transaction[];
+  customers: Customer[];
+  employees: Employee[];
+
+  expenses: Expense[];
+  income: Income[];
+
+  notifications: Notification[];
+  auditLogs: AuditLog[];
+}
+```
+
+Semua entitas menggunakan UUID sebagai identifier.
+
+## 6.3 Core Data Entities
+
+### A. Business
+
+```typescript
+interface Business {
+  id: string;
+  name: string;
+  description?: string;
+  logo?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  currency: string;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+### B. Product
+
+```typescript
+interface Product {
+  id: string;
+  sku: string;
+  name: string;
+  description?: string;
+  categoryId: string;
+  supplierId?: string;
+
+  costPrice: number;
+  sellingPrice: number;
+
+  stock: number;
+  minimumStock: number;
+
+  unit: string;
+  image?: string;
+
+  status: "active" | "archived";
+
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+### C. Category
+
+```typescript
+interface Category {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+}
+```
+
+### D. Supplier
+
+```typescript
+interface Supplier {
+  id: string;
+  name: string;
+  contactPerson?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  status: "active" | "inactive";
+}
+```
+
+### E. Transaction
+
+```typescript
+interface Transaction {
+  id: string;
+  transactionNumber: string;
+
+  customerId?: string;
+  employeeId?: string;
+
+  items: TransactionItem[];
+
+  subtotal: number;
+  discount: number;
+  tax: number;
+  total: number;
+
+  paymentMethod: string;
+  paymentAmount: number;
+  changeAmount: number;
+
+  status: "completed" | "cancelled";
+
+  createdAt: string;
+  cancelledAt?: string;
+  cancellationReason?: string;
+}
+```
+
+### F. Transaction Item
+
+```typescript
+interface TransactionItem {
+  id: string;
+  productId: string;
+
+  productName: string;
+  sku: string;
+
+  quantity: number;
+  unitPrice: number;
+  costPrice: number;
+
+  subtotal: number;
+}
+```
+
+Nama, SKU, harga jual, dan harga modal disimpan sebagai snapshot agar riwayat transaksi tetap akurat meskipun informasi produk berubah kemudian.
+
+### G. Inventory Movement
+
+```typescript
+interface InventoryMovement {
+  id: string;
+  productId: string;
+
+  type:
+    | "stock_in"
+    | "stock_out"
+    | "adjustment"
+    | "return";
+
+  quantity: number;
+  previousStock: number;
+  newStock: number;
+
+  referenceId?: string;
+  note?: string;
+
+  createdAt: string;
+  createdBy?: string;
+}
+```
+
+### H. Customer
+
+```typescript
+interface Customer {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+
+  status: "active" | "archived";
+
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+Statistik pelanggan sebaiknya dihitung dari transaksi, bukan disimpan sebagai angka yang berpotensi tidak sinkron.
+
+### I. Employee
+
+```typescript
+interface Employee {
+  id: string;
+  name: string;
+  position: string;
+  phone?: string;
+  email?: string;
+
+  salary?: number;
+
+  status: "active" | "inactive";
+
+  joinDate: string;
+  createdAt: string;
+}
+```
+
+### J. Expense
+
+```typescript
+interface Expense {
+  id: string;
+  category: string;
+  description: string;
+  amount: number;
+
+  date: string;
+  paymentMethod?: string;
+
+  createdAt: string;
+}
+```
+
+### K. Other Income
+
+```typescript
+interface Income {
+  id: string;
+  category: string;
+  description: string;
+  amount: number;
+
+  date: string;
+  paymentMethod?: string;
+
+  createdAt: string;
+}
+```
+
+## 6.4 Entity Relationships
+
+Hubungan utama antarentitas:
+
+- Product → Category
+- Product → Supplier
+- Transaction → Customer
+- Transaction → Employee
+- Transaction → Transaction Items
+- Transaction Item → Product
+- Inventory Movement → Product
+- Inventory Movement → Transaction (optional reference)
+- Expense → Expense Category
+- Income → Income Category
+
+Relasi disimpan menggunakan identifier, bukan menyalin seluruh objek terkait.
+
+Pengecualian adalah snapshot pada Transaction Item untuk menjaga riwayat transaksi.
+
+## 6.5 Data Integrity Rules
+
+Aturan integritas data:
+
+1. Setiap ID harus unik.
+2. Harga dan jumlah tidak boleh bernilai negatif.
+3. Stok produk tidak boleh negatif pada transaksi normal.
+4. Transaction Item harus memiliki referensi produk yang valid.
+5. Transaksi yang dibatalkan tidak boleh dihitung sebagai penjualan aktif.
+6. Produk yang sudah memiliki riwayat transaksi harus diarsipkan, bukan dihapus permanen.
+7. Perubahan stok harus memiliki catatan Inventory Movement.
+8. Setiap perubahan penting harus memperbarui timestamp.
+9. Data import harus melewati validasi sebelum mengganti data aktif.
+10. Nilai total transaksi harus konsisten dengan perhitungan item, diskon, dan pajak.
+
+---
+
+# 7. STATE MANAGEMENT ARCHITECTURE
+
+## 7.1 State Management Approach
+
+NexaDesk menggunakan global state management agar perubahan data dapat diterapkan ke seluruh modul.
+
+Pilihan yang direkomendasikan adalah Zustand atau React Context.
+
+Untuk aplikasi dengan banyak modul dan operasi data, Zustand dapat digunakan agar pengelolaan state lebih terstruktur.
+
+Global state menyimpan data operasional utama yang telah dimuat dari Local Storage.
+
+## 7.2 State Structure
+
+Contoh:
+
+```typescript
+interface AppState {
+  data: NexaDeskData | null;
+  isLoading: boolean;
+  isSaving: boolean;
+  error: string | null;
+
+  initializeApp: () => void;
+  refreshData: () => void;
+}
+```
+
+Operasi bisnis sebaiknya dijalankan melalui actions atau services, bukan langsung dari komponen UI.
+
+## 7.3 State Update Flow
+
+Contoh perubahan data produk:
+
+```text
+User submits product form
+          ↓
+Product Form Validation
+          ↓
+Product Service
+          ↓
+Update Central Data
+          ↓
+Save to Local Storage
+          ↓
+Update Global State
+          ↓
+Refresh dependent UI
+```
+
+Dengan pendekatan ini, perubahan produk otomatis tercermin pada:
+- Inventory
+- POS
+- Dashboard
+- Reports
+
+## 7.4 Selectors
+
+Selector digunakan untuk mengambil dan menghitung data yang dibutuhkan komponen.
+
+Contoh:
+- selectActiveProducts
+- selectLowStockProducts
+- selectCompletedTransactions
+- selectTotalRevenue
+- selectTotalExpenses
+- selectNetProfit
+- selectTopSellingProducts
+
+Perhitungan turunan sebaiknya tidak disimpan berulang kali sebagai data permanen apabila dapat dihitung dari sumber data utama.
+
+---
+
+# 8. CORE BUSINESS LOGIC
+
+Bagian ini merupakan inti integrasi antarmodul NexaDesk.
+
+## 8.1 POS Checkout Workflow
+
+Saat pengguna menyelesaikan transaksi:
+
+1. Validasi seluruh produk dalam keranjang.
+2. Pastikan produk masih aktif.
+3. Pastikan stok mencukupi.
+4. Hitung subtotal.
+5. Hitung diskon dan pajak jika berlaku.
+6. Hitung total pembayaran.
+7. Validasi nominal pembayaran.
+8. Buat Transaction ID.
+9. Buat transaksi dengan status completed.
+10. Kurangi stok produk.
+11. Buat Inventory Movement untuk setiap produk.
+12. Simpan snapshot harga dan nama produk.
+13. Perbarui global state.
+14. Simpan perubahan ke Local Storage.
+15. Tampilkan bukti transaksi.
+
+Seluruh perubahan harus dilakukan sebagai satu operasi bisnis yang konsisten.
+
+Jika penyimpanan gagal, aplikasi tidak boleh menampilkan transaksi sebagai berhasil.
+
+## 8.2 POS Checkout Flow Diagram
+
+```text
+Start Checkout
+      |
+      ▼
+Validate Cart
+      |
+      ▼
+Check Product Availability
+      |
+      ▼
+Check Stock
+      |
+      ▼
+Calculate Total
+      |
+      ▼
+Validate Payment
+      |
+      ▼
+Create Transaction
+      |
+      ▼
+Update Product Stock
+      |
+      ▼
+Create Inventory Movements
+      |
+      ▼
+Persist Data
+      |
+      ▼
+Update Global State
+      |
+      ▼
+Show Receipt
+```
+
+Jika validasi atau penyimpanan gagal, transaksi harus dibatalkan sebelum state berhasil dipublikasikan.
+
+## 8.3 Transaction Cancellation Workflow
+
+Pembatalan transaksi tidak boleh menghapus transaksi.
+
+Alur:
+
+1. Pengguna memilih transaksi.
+2. Aplikasi meminta konfirmasi.
+3. Pengguna memasukkan alasan pembatalan.
+4. Sistem memeriksa bahwa transaksi masih completed.
+5. Status transaksi diubah menjadi cancelled.
+6. Stok produk dikembalikan.
+7. Inventory Movement bertipe return dibuat.
+8. Dampak transaksi terhadap pendapatan dan laporan dikeluarkan.
+9. Dashboard dan laporan diperbarui.
+
+Sistem harus mencegah pembatalan berulang yang mengembalikan stok lebih dari satu kali.
+
+## 8.4 Inventory Adjustment Workflow
+
+Alur perubahan stok manual:
+
+1. Pengguna memilih produk.
+2. Pengguna memasukkan jumlah perubahan.
+3. Pengguna menentukan jenis perubahan.
+4. Sistem memvalidasi nilai.
+5. Sistem menyimpan stok sebelumnya.
+6. Sistem menghitung stok baru.
+7. Sistem memperbarui produk.
+8. Sistem membuat Inventory Movement.
+9. Sistem memperbarui Dashboard dan Inventory.
+
+## 8.5 Financial Calculation
+
+Pendapatan penjualan:
+
+`Revenue = Sum of completed transaction totals`
+
+Total pengeluaran:
+
+`Total Expenses = Sum of recorded expenses`
+
+Pendapatan lain:
+
+`Other Income = Sum of non-POS income records`
+
+Laba bersih sederhana:
+
+`Net Profit = Revenue + Other Income - Total Expenses - Cost of Goods Sold`
+
+Perhitungan COGS atau Cost of Goods Sold menggunakan snapshot costPrice pada item transaksi yang valid.
+
+Untuk menjaga konsistensi, pembatalan transaksi harus mengeluarkan transaksi terkait dari perhitungan Revenue dan COGS.
+
+Cash Flow harus dihitung secara terpisah berdasarkan arus kas masuk dan keluar. Laba bersih tidak boleh dianggap selalu sama dengan perubahan saldo kas.
+
+## 8.6 Customer Statistics
+
+Statistik pelanggan dihitung dari transaksi completed yang memiliki customerId.
+
+Informasi:
+- Total Transactions
+- Total Spending
+- Average Transaction Value
+- Last Purchase Date
+
+## 8.7 Dashboard Calculation
+
+Dashboard menggunakan selector untuk memperoleh:
+- Total Revenue
+- Total Expenses
+- Net Profit
+- Number of Transactions
+- Sales Trends
+- Top Products
+- Low Stock Products
+
+Perhitungan harus mengikuti filter periode yang dipilih pengguna.
+
+---
+
+# 9. LOCAL DATA PERSISTENCE
+
+## 9.1 Storage Service
+
+Seluruh akses Local Storage harus melalui `storageService.ts`.
+
+Komponen UI dan business services tidak boleh mengakses Local Storage secara langsung.
+
+Fungsi utama:
+
+```typescript
+getData()
+saveData(data)
+updateData(updater)
+resetData()
+validateData(data)
+```
+
+Fungsi tambahan:
+
+```typescript
+exportJSON()
+importJSON(file)
+createBackup()
+restoreBackup()
+```
+
+## 9.2 Initialization
+
+Saat aplikasi dibuka:
+
+1. Periksa apakah data NexaDesk tersedia.
+2. Jika tersedia, baca data.
+3. Validasi struktur dan schemaVersion.
+4. Jika valid, muat data ke global state.
+5. Jika belum tersedia, buat initial data.
+6. Jika data tidak valid, tampilkan recovery state dan jangan langsung menimpa data lama.
+
+## 9.3 Save Strategy
+
+Setiap perubahan data harus disimpan setelah validasi berhasil.
+
+Strategi penyimpanan:
+- Update data pada memory terlebih dahulu.
+- Validasi hasil perubahan.
+- Serialisasi data menjadi JSON.
+- Simpan menggunakan Local Storage.
+- Jika berhasil, publikasikan state baru.
+- Jika gagal, pertahankan state sebelumnya dan tampilkan pesan error.
+
+Untuk operasi bisnis yang melibatkan beberapa entitas, gunakan satu transaksi perubahan pada root data agar tidak terjadi kondisi setengah tersimpan.
+
+## 9.4 Storage Limitations
+
+Local Storage memiliki keterbatasan:
+- Kapasitas terbatas.
+- Data hanya tersedia pada browser dan origin terkait.
+- Penghapusan browser data dapat menghilangkan data.
+- Tidak mendukung sinkronisasi otomatis.
+- Tidak cocok untuk banyak pengguna yang mengakses data bersama.
+
+Aplikasi harus memberikan peringatan ketika penyimpanan gagal.
+
+Untuk penggunaan dengan data besar atau kebutuhan multi-device, versi berikutnya dapat menggunakan IndexedDB atau backend database.
+
+---
+
+# 10. IMPORT, EXPORT, BACKUP, AND RESTORE
+
+## 10.1 JSON Export
+
+JSON Export menghasilkan seluruh data aplikasi dalam satu file.
+
+Contoh nama file:
+
+`nexadesk-backup-2026-11-19.json`
+
+Isi file mencakup:
+- schemaVersion
+- business
+- settings
+- products
+- categories
+- suppliers
+- inventoryMovements
+- transactions
+- customers
+- employees
+- expenses
+- income
+- notifications
+- auditLogs
+
+## 10.2 JSON Import
+
+Proses import harus memiliki tahapan:
+
+1. Pengguna memilih file JSON.
+2. Sistem membaca file.
+3. Sistem memvalidasi format JSON.
+4. Sistem memvalidasi schemaVersion.
+5. Sistem memeriksa struktur dan relasi data.
+6. Sistem menampilkan preview.
+7. Pengguna mengonfirmasi.
+8. Sistem membuat backup data saat ini.
+9. Sistem mengganti data aktif.
+10. Sistem memvalidasi hasil.
+11. Jika gagal, sistem mengembalikan backup sebelumnya.
+
+Import tidak boleh langsung mengganti data aktif tanpa konfirmasi.
+
+## 10.3 Excel Export
+
+Excel Export menggunakan SheetJS.
+
+Workbook utama dapat memiliki beberapa sheet:
+
+| Sheet | Content |
+|---|---|
+| Business Summary | Ringkasan bisnis |
+| Products | Data produk |
+| Categories | Kategori produk |
+| Inventory | Kondisi stok |
+| Inventory Movements | Riwayat perubahan stok |
+| Transactions | Data transaksi |
+| Transaction Items | Detail transaksi |
+| Customers | Data pelanggan |
+| Suppliers | Data pemasok |
+| Employees | Data karyawan |
+| Expenses | Data pengeluaran |
+| Other Income | Pendapatan lain |
+| Financial Summary | Ringkasan keuangan |
+
+Aplikasi juga menyediakan ekspor per modul.
+
+## 10.4 Backup and Restore
+
+Sebelum reset atau import, aplikasi sebaiknya menawarkan pembuatan backup.
+
+Restore harus:
+- Memvalidasi file.
+- Menampilkan ringkasan data.
+- Meminta konfirmasi.
+- Menyimpan backup kondisi saat ini.
+- Mengganti data.
+- Mengembalikan data lama apabila proses gagal.
+
+---
+
+# 11. ROUTING ARCHITECTURE
+
+NexaDesk menggunakan React Router.
+
+Contoh route:
+
+```text
+/
+├── /login
+├── /register
+├── /forgot-password
+│
+└── /app
+    ├── /dashboard
+    ├── /pos
+    ├── /inventory
+    ├── /finance
+    ├── /employees
+    ├── /customers
+    ├── /reports
+    ├── /ai-assistant
+    │
+    └── /settings
+        ├── /business
+        ├── /preferences
+        └── /data-management
+```
+
+Halaman operasional menggunakan AppLayout.
+
+Halaman autentikasi menggunakan AuthLayout.
+
+Autentikasi pada versi frontend-only hanya simulasi antarmuka dan tidak memberikan keamanan akses sesungguhnya.
+
+---
+
+# 12. ERROR HANDLING
+
+Aplikasi harus menangani kegagalan secara konsisten.
+
+Kategori error:
+
+**Validation Error**
+- Form tidak lengkap.
+- Harga tidak valid.
+- Stok tidak mencukupi.
+
+**Storage Error**
+- Local Storage penuh.
+- Gagal menyimpan data.
+- Data tidak dapat dibaca.
+
+**Import Error**
+- File tidak valid.
+- Schema tidak sesuai.
+- Relasi data rusak.
+
+**Business Logic Error**
+- Transaksi sudah dibatalkan.
+- Produk tidak tersedia.
+- Pembayaran kurang.
+
+Setiap error harus:
+- Memiliki pesan yang mudah dipahami.
+- Tidak menyebabkan data rusak.
+- Memberikan tindakan lanjutan jika memungkinkan.
+- Dicatat untuk debugging apabila diperlukan.
+
+---
+
+# 13. SECURITY AND DATA PROTECTION
+
+Walaupun NexaDesk merupakan aplikasi frontend-only, perlindungan data tetap harus diperhatikan.
+
+Ketentuan:
+1. Jangan menyimpan password pengguna dalam bentuk plaintext.
+2. Jangan menganggap frontend authentication sebagai keamanan produksi.
+3. Jangan menyimpan API key Gemini permanen di source code.
+4. Validasi semua data yang masuk melalui form maupun file import.
+5. Hindari menampilkan data sensitif dalam log.
+6. Konfirmasi tindakan berisiko seperti reset dan restore.
+7. Sediakan backup sebelum operasi penggantian data.
+8. Jangan mengeksekusi isi file import sebagai kode.
+
+Penggunaan Local Storage berarti data dapat diakses oleh JavaScript pada origin yang sama. Karena itu, aplikasi harus menerapkan praktik pencegahan XSS dan tidak boleh menganggap penyimpanan lokal sebagai penyimpanan terenkripsi.
+
+---
+
+# 14. PERFORMANCE AND OPTIMIZATION
+
+Aplikasi harus tetap responsif ketika jumlah data meningkat.
+
+Strategi:
+- Gunakan pagination pada tabel.
+- Gunakan memoization untuk perhitungan yang berat.
+- Hindari menghitung ulang seluruh laporan pada setiap render.
+- Gunakan lazy loading untuk halaman yang tidak langsung diperlukan.
+- Optimalkan gambar produk.
+- Gunakan komponen yang dapat digunakan kembali.
+- Hindari penyimpanan data berulang yang tidak diperlukan.
+- Pantau ukuran data Local Storage.
+
+Jika volume data berkembang besar, pertimbangkan migrasi penyimpanan ke IndexedDB.
+
+---
+
+# 15. DEMO DATA ARCHITECTURE
+
+NexaDesk menggunakan Nexa Coffee House sebagai bisnis contoh.
+
+Demo data harus saling berhubungan secara realistis.
+
+Contoh:
+- Produk kopi memiliki kategori minuman.
+- Produk memiliki harga modal dan harga jual.
+- Transaksi menggunakan produk yang tersedia.
+- Stok akhir sesuai dengan riwayat transaksi dan pergerakan stok.
+- Transaksi dapat terhubung dengan pelanggan dan karyawan.
+- Pengeluaran memiliki kategori.
+- Laporan keuangan sesuai dengan transaksi dan pengeluaran.
+- Produk terlaris sesuai dengan detail transaksi.
+
+Demo data tidak boleh menghasilkan angka yang saling bertentangan.
+
+Demo data hanya digunakan untuk inisialisasi pertama atau mode demonstrasi. Aplikasi tidak boleh mengembalikan data pengguna ke demo data setiap kali halaman dibuka.
+
+---
+
+# 16. FUTURE ARCHITECTURE EXPANSION
+
+Arsitektur NexaDesk harus memungkinkan pengembangan menjadi aplikasi bisnis yang lebih besar.
+
+Potensi pengembangan:
+
+**A. Backend Integration**
+
+Menambahkan backend API untuk:
+- Autentikasi sungguhan.
+- Manajemen pengguna.
+- Sinkronisasi data.
+- Business permissions.
+
+**B. Database Integration**
+
+Menggunakan database seperti PostgreSQL untuk penyimpanan terpusat.
+
+**C. Multi-device Synchronization**
+
+Memungkinkan pemilik usaha mengakses data dari berbagai perangkat.
+
+**D. Multi-user Access**
+
+Mendukung beberapa karyawan dengan hak akses berbeda.
+
+**E. Secure AI Integration**
+
+Menggunakan backend proxy untuk menghubungkan Gemini API secara aman.
+
+**F. Advanced Analytics**
+
+Menambahkan analisis tren penjualan, prediksi permintaan, dan rekomendasi stok.
+
+Pengembangan tersebut bukan bagian dari implementasi awal, tetapi struktur aplikasi harus menghindari ketergantungan yang menyulitkan migrasi.
+
+---
+
+# 17. DEVELOPMENT IMPLEMENTATION STRATEGY
+
+Pengembangan NexaDesk dilakukan secara bertahap.
+
+## Phase 1 — Foundation
+
+- Project initialization
+- React and TypeScript setup
+- Tailwind configuration
+- Design system implementation
+- Routing
+- Application layout
+- Reusable UI components
+- Data types and schemas
+- Local Storage service
+- Global state management
+- Demo data initialization
+
+## Phase 2 — Core Operations
+
+- Dashboard
+- Product management
+- Category management
+- Inventory management
+- POS
+- Transaction history
+- Checkout workflow
+- Transaction cancellation
+- Basic financial management
+
+## Phase 3 — Business Management
+
+- Employee management
+- Customer management
+- Supplier management
+- Advanced finance
+- Reports and analytics
+
+## Phase 4 — Advanced Features
+
+- AI Assistant
+- Settings
+- JSON export/import
+- Excel export
+- Backup and restore
+- Data reset
+- Responsive refinement
+
+## Phase 5 — Testing and Stabilization
+
+- Functional testing
+- Data integrity testing
+- Business workflow testing
+- Import/export testing
+- Responsive testing
+- Error handling
+- Performance optimization
+
+---
+
+# 18. ACCEPTANCE CRITERIA
+
+Arsitektur NexaDesk dianggap berhasil diterapkan apabila:
+
+1. Semua modul menggunakan satu sumber data utama.
+2. Data tetap tersedia setelah halaman di-refresh.
+3. Perubahan produk tercermin pada Inventory dan POS.
+4. Checkout memperbarui transaksi, stok, dan laporan secara konsisten.
+5. Pembatalan transaksi mengembalikan stok dengan benar.
+6. Transaksi yang dibatalkan tidak dihitung sebagai penjualan aktif.
+7. Finance tidak menghitung pendapatan POS dua kali.
+8. Dashboard dan Reports menampilkan angka yang sesuai.
+9. Statistik pelanggan berasal dari transaksi yang valid.
+10. Data import melewati validasi dan konfirmasi.
+11. Backup dan restore dapat digunakan.
+12. Excel Export menghasilkan workbook dengan struktur yang benar.
+13. Kegagalan penyimpanan tidak menyebabkan aplikasi menampilkan perubahan yang belum berhasil disimpan.
+14. Struktur kode modular dan dapat dikembangkan.
+15. Aplikasi tetap dapat menjalankan fungsi operasional utama tanpa backend.
+
+---
+
+# 19. FINAL ARCHITECTURE PRINCIPLES
+
+Seluruh proses pengembangan NexaDesk wajib mengikuti prinsip berikut:
+
+1. **Single Source of Truth:** Tidak boleh ada sumber data terpisah untuk modul yang menggunakan entitas sama.
+2. **Separation of Concerns:** UI, business logic, state management, dan storage harus dipisahkan.
+3. **Data Consistency:** Setiap operasi harus menjaga hubungan dan konsistensi data.
+4. **Reusable Components:** Komponen umum harus dapat digunakan kembali.
+5. **No Fake Functionality:** Tombol dan fitur yang ditampilkan harus memiliki fungsi nyata atau diberi keterangan sebagai fitur demonstrasi.
+6. **Local-first:** Data operasional disimpan pada perangkat pengguna.
+7. **Recoverability:** Pengguna harus dapat mencadangkan dan memulihkan data.
+8. **Future-ready:** Arsitektur harus memungkinkan penambahan backend dan database.
+9. **Maintainability:** Kode harus mudah dipahami dan tidak menumpuk dalam satu file besar.
+10. **Business-oriented:** Setiap fitur harus mendukung kebutuhan operasional bisnis nyata.
+
+---
+
+**END OF DOCUMENT**
+
+**NexaDesk — Application Architecture Specification v1.0**

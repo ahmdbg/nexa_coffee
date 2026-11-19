@@ -1,0 +1,836 @@
+# NEXADESK
+# DESIGN SYSTEM SPECIFICATION (DSS)
+
+**Version:** 1.0  
+**Product:** NexaDesk  
+**Design Direction:** Modern Minimalist Premium SaaS  
+**Primary Theme:** Light Mode  
+**Design Approach:** Desktop-First, Responsive  
+**Primary Font:** Inter
+
+---
+
+# 1. DESIGN PHILOSOPHY
+
+## 1.1. Design Vision
+
+NexaDesk harus memiliki tampilan seperti produk SaaS profesional yang matang, modern, dan premium.
+
+Desain harus mengutamakan keterbacaan, kemudahan navigasi, konsistensi, serta efisiensi penggunaan.
+
+Walaupun aplikasi memiliki banyak modul dan informasi, antarmuka tidak boleh terlihat padat, berantakan, atau membingungkan.
+
+## 1.2. Design Characteristics
+
+Karakteristik visual utama:
+
+- Modern.
+- Elegant.
+- Minimalist.
+- Professional.
+- Clean.
+- Sophisticated.
+- Functional.
+- Consistent.
+
+## 1.3. Design Inspiration
+
+Arah desain mengambil inspirasi dari karakteristik produk seperti:
+
+- Linear: minimalisme dan konsistensi komponen.
+- Stripe Dashboard: keterbacaan data dan pengelolaan informasi.
+- Vercel Dashboard: layout bersih dan penggunaan whitespace.
+- Modern Fintech Applications: visualisasi keuangan dan hierarki informasi.
+
+Inspirasi tersebut hanya menjadi referensi arah desain, bukan untuk menyalin tampilan atau identitas visual produk lain.
+
+## 1.4. Core Design Principles
+
+**Clarity over Decoration**
+
+Informasi harus lebih menonjol daripada dekorasi visual.
+
+**Consistency over Complexity**
+
+Seluruh halaman menggunakan standar visual dan interaksi yang sama.
+
+**Whitespace is Important**
+
+Berikan ruang yang cukup di antara elemen agar tampilan terasa lega.
+
+**Data First**
+
+Informasi bisnis, angka, tabel, dan grafik harus mudah dibaca.
+
+**Subtle Interactions**
+
+Gunakan animasi dan efek visual seperlunya.
+
+---
+
+# 2. BRAND IDENTITY
+
+## 2.1. Brand Name
+
+NexaDesk.
+
+## 2.2. Tagline
+
+One Platform. Complete Business Control.
+
+## 2.3. Brand Personality
+
+NexaDesk memiliki karakter:
+
+- Trustworthy.
+- Intelligent.
+- Modern.
+- Efficient.
+- Professional.
+
+## 2.4. Logo Direction
+
+Gunakan logo berbasis simbol geometris sederhana yang merepresentasikan konektivitas, integrasi, dan pengelolaan bisnis.
+
+Logo terdiri dari:
+- Abstract geometric symbol.
+- Wordmark "NexaDesk".
+
+Hindari penggunaan logo yang terlalu kompleks.
+
+Logo harus tetap terlihat jelas ketika digunakan pada sidebar yang diperluas maupun diperkecil.
+
+---
+
+# 3. COLOR SYSTEM
+
+## 3.1. Primary Palette
+
+| Token | Hex | Usage |
+|---|---|---|
+| Midnight | #14243A | Primary dark elements |
+| Nexa Blue | #234F80 | Primary brand |
+| Accent Blue | #4C83C3 | Interactive accents |
+| Soft Blue | #EAF2FA | Selected backgrounds |
+| Pale Blue | #F4F7FB | Subtle surfaces |
+
+## 3.2. Neutral Palette
+
+| Token | Hex | Usage |
+|---|---|---|
+| White | #FFFFFF | Main surfaces |
+| Canvas | #F4F7FB | Main application background |
+| Slate 50 | #F8FAFC | Secondary surfaces |
+| Slate 100 | #F1F5F9 | Hover surfaces |
+| Slate 200 | #E2E8F0 | Borders |
+| Slate 300 | #CBD5E1 | Disabled borders |
+| Slate 400 | #94A3B8 | Muted icons |
+| Slate 500 | #64748B | Secondary text |
+| Slate 600 | #475569 | Supporting text |
+| Slate 700 | #334155 | Primary body text |
+| Slate 800 | #1E293B | Headings |
+| Slate 900 | #0F172A | Strong emphasis |
+
+## 3.3. Semantic Colors
+
+| Token | Hex | Usage |
+|---|---|---|
+| Success | #16A36A | Successful operations |
+| Success Soft | #E9F8F0 | Success backgrounds |
+| Warning | #E99A32 | Warnings |
+| Warning Soft | #FFF5E6 | Warning backgrounds |
+| Danger | #DC5555 | Errors and destructive actions |
+| Danger Soft | #FDECEC | Error backgrounds |
+| Info | #4C83C3 | Informational states |
+| Info Soft | #EAF2FA | Information backgrounds |
+
+## 3.4. Color Usage Rules
+
+- Nexa Blue digunakan untuk tombol utama dan elemen brand.
+- Midnight digunakan untuk elemen identitas dan teks tertentu.
+- Accent Blue digunakan untuk selected states dan interactive accents.
+- Canvas digunakan sebagai latar utama aplikasi.
+- White digunakan untuk cards dan content surfaces.
+- Semantic colors hanya digunakan untuk menyampaikan status atau informasi.
+- Hindari penggunaan terlalu banyak warna dalam satu halaman.
+
+Warna tidak boleh digunakan hanya sebagai dekorasi tanpa tujuan.
+
+---
+
+# 4. TYPOGRAPHY SYSTEM
+
+## 4.1. Primary Typeface
+
+Inter.
+
+Gunakan font Inter untuk seluruh antarmuka.
+
+Jika font eksternal tidak tersedia, gunakan system sans-serif sebagai fallback.
+
+## 4.2. Font Weights
+
+| Weight | Value | Usage |
+|---|---:|---|
+| Regular | 400 | Body text |
+| Medium | 500 | Labels |
+| Semibold | 600 | Headings |
+| Bold | 700 | Strong emphasis |
+
+Hindari penggunaan font weight 700 secara berlebihan.
+
+## 4.3. Typography Scale
+
+| Style | Size | Weight |
+|---|---:|---|
+| Display | 32px | 700 |
+| H1 | 28px | 600 |
+| H2 | 24px | 600 |
+| H3 | 20px | 600 |
+| H4 | 16px | 600 |
+| Body Large | 15px | 400 |
+| Body | 14px | 400 |
+| Small | 13px | 400 |
+| Caption | 12px | 400 |
+| Tiny | 11px | 500 |
+
+## 4.4. Typography Rules
+
+- Page title menggunakan 24–28px.
+- Section heading menggunakan 16–20px.
+- Body text menggunakan 14px.
+- Supporting text menggunakan 12–13px.
+- Angka KPI dapat menggunakan 26–32px.
+- Gunakan tabular numbers untuk data keuangan.
+- Hindari teks terlalu kecil untuk informasi penting.
+
+---
+
+# 5. SPACING SYSTEM
+
+Gunakan sistem spacing berbasis kelipatan 4px.
+
+| Token | Size |
+|---|---:|
+| 1 | 4px |
+| 2 | 8px |
+| 3 | 12px |
+| 4 | 16px |
+| 5 | 20px |
+| 6 | 24px |
+| 8 | 32px |
+| 10 | 40px |
+| 12 | 48px |
+| 16 | 64px |
+
+## 5.1. Layout Spacing
+
+- Sidebar padding: 16px.
+- Main content padding: 28–32px.
+- Page section gap: 24–32px.
+- Card internal padding: 20–24px.
+- Form field gap: 16–20px.
+- Table cell padding: 12–16px.
+
+Whitespace harus digunakan secara konsisten.
+
+---
+
+# 6. BORDER RADIUS & SHADOW
+
+## 6.1. Border Radius
+
+| Component | Radius |
+|---|---:|
+| Small Buttons | 8px |
+| Inputs | 8px |
+| Standard Cards | 12px |
+| Large Cards | 16px |
+| Modal | 16px |
+| Dropdown | 10px |
+| Pills | 999px |
+
+## 6.2. Shadow
+
+Gunakan shadow yang sangat halus.
+
+- Card: subtle shadow.
+- Dropdown: medium subtle shadow.
+- Modal: slightly stronger shadow.
+- Sidebar: no prominent shadow.
+
+Border halus lebih diutamakan daripada shadow tebal.
+
+Contoh border:
+#E2E8F0.
+
+---
+
+# 7. APPLICATION LAYOUT
+
+## 7.1. Desktop Layout
+
+Desktop merupakan prioritas utama.
+
+Struktur:
+
+- Fixed Sidebar.
+- Top Header.
+- Main Content Area.
+- Optional Right Panel.
+
+Ukuran rekomendasi:
+
+- Sidebar expanded: 248px.
+- Sidebar collapsed: 72px.
+- Header: 68px.
+- Main content: flexible.
+- Main content maximum width: 1600px.
+
+## 7.2. Sidebar
+
+Sidebar memiliki:
+
+**Brand Section**
+- Logo.
+- NexaDesk wordmark.
+
+**Workspace Section**
+- Business selector.
+
+**Main Navigation**
+- Overview.
+- Point of Sale.
+- Inventory.
+- Finance.
+- Employees.
+- Customers.
+- Reports & Analytics.
+- AI Assistant.
+
+**Management Section**
+- Settings.
+- Data Management.
+- Help.
+
+**Bottom Section**
+- User profile.
+- Collapse control.
+
+Sidebar behavior:
+- Fixed position on desktop.
+- Collapsible.
+- Active menu indicator.
+- Hover tooltip in collapsed mode.
+- Smooth transition.
+- Scrollable when navigation exceeds available height.
+
+## 7.3. Header
+
+Header includes:
+
+- Breadcrumb.
+- Page context.
+- Global search (optional).
+- Notification button.
+- Help button.
+- Profile dropdown.
+
+Header must remain visually lightweight.
+
+## 7.4. Main Content
+
+Setiap halaman memiliki:
+- Page title.
+- Supporting description.
+- Primary action.
+- Main content.
+- Optional filters.
+
+Konten harus mempunyai hierarki visual yang jelas.
+
+---
+
+# 8. COMPONENT DESIGN SYSTEM
+
+Semua komponen harus reusable dan konsisten.
+
+## 8.1. Buttons
+
+Variants:
+- Primary.
+- Secondary.
+- Outline.
+- Ghost.
+- Destructive.
+
+Sizes:
+- Small: 32px.
+- Medium: 40px.
+- Large: 48px.
+
+Rules:
+- Primary button menggunakan Nexa Blue.
+- Secondary button menggunakan neutral surface.
+- Destructive button menggunakan semantic danger.
+- Disabled button harus memiliki visual state yang jelas.
+- Loading button menampilkan loading indicator.
+
+## 8.2. Inputs
+
+Jenis:
+- Text.
+- Number.
+- Email.
+- Password.
+- Search.
+- Textarea.
+- Date.
+
+Setiap input memiliki:
+- Label.
+- Placeholder.
+- Optional helper text.
+- Validation message.
+- Focus state.
+- Disabled state.
+
+## 8.3. Select & Dropdown
+
+- White background.
+- Subtle border.
+- Consistent radius.
+- Clear selected state.
+- Keyboard-friendly interaction.
+
+## 8.4. Cards
+
+Card variants:
+- Standard Card.
+- KPI Card.
+- Chart Card.
+- Summary Card.
+- Alert Card.
+
+Card harus mempunyai padding konsisten.
+
+Hindari terlalu banyak card bertingkat.
+
+## 8.5. Data Tables
+
+Fitur:
+- Search.
+- Sorting.
+- Filtering.
+- Pagination.
+- Row selection.
+- Action menu.
+- Empty state.
+
+Table design:
+- White surface.
+- Subtle horizontal dividers.
+- Clear column headers.
+- Consistent cell spacing.
+- Right-aligned numeric columns.
+- Responsive behavior.
+
+## 8.6. Badges
+
+Variants:
+- Success.
+- Warning.
+- Danger.
+- Info.
+- Neutral.
+
+Digunakan untuk:
+- Status transaksi.
+- Status stok.
+- Status karyawan.
+- Status produk.
+
+## 8.7. Modals
+
+Modal digunakan untuk:
+- Create.
+- Edit.
+- Delete confirmation.
+- Transaction confirmation.
+- Import confirmation.
+- Export settings.
+
+Modal harus memiliki:
+- Title.
+- Description.
+- Main content.
+- Footer actions.
+- Close button.
+
+Gunakan ukuran sesuai kompleksitas konten.
+
+## 8.8. Toast Notifications
+
+Variants:
+- Success.
+- Error.
+- Warning.
+- Info.
+
+Toast harus singkat dan tidak mengganggu aktivitas.
+
+## 8.9. Empty States
+
+Ketika belum ada data, jangan menampilkan tabel kosong tanpa penjelasan.
+
+Gunakan:
+- Icon atau ilustrasi sederhana.
+- Judul.
+- Penjelasan singkat.
+- Call-to-action.
+
+## 8.10. Loading States
+
+Gunakan skeleton loading untuk konten yang sedang dipersiapkan.
+
+Hindari spinner besar untuk setiap komponen.
+
+## 8.11. Confirmation Dialogs
+
+Aksi destruktif harus menggunakan confirmation dialog.
+
+Contoh:
+- Delete Product.
+- Cancel Transaction.
+- Reset Data.
+- Restore Backup.
+
+---
+
+# 9. PAGE-SPECIFIC DESIGN
+
+## 9.1. Dashboard
+
+Layout:
+- Welcome header.
+- Date range selector.
+- Four KPI cards.
+- Sales chart.
+- Revenue breakdown.
+- Top selling products.
+- Recent transactions.
+- Low stock alerts.
+
+Desktop:
+- Four KPI cards in one row.
+- Charts in a two-column layout.
+- Supporting tables and lists below.
+
+## 9.2. POS
+
+Layout:
+- Product selection area.
+- Product search.
+- Category filters.
+- Product grid.
+- Shopping cart panel.
+
+Desktop:
+- Two-column layout.
+- Product area takes approximately 65%.
+- Cart takes approximately 35%.
+
+Mobile:
+- Product area becomes primary.
+- Cart opens as a drawer or dedicated view.
+
+## 9.3. Inventory
+
+Layout:
+- Page header.
+- Inventory summary cards.
+- Search and filters.
+- Product table.
+- Product detail drawer.
+- Add/Edit Product modal.
+
+## 9.4. Finance
+
+Layout:
+- Financial KPI cards.
+- Date filters.
+- Income and expense visualization.
+- Profit and loss summary.
+- Transaction tables.
+
+## 9.5. Employees
+
+Layout:
+- Employee summary.
+- Employee directory.
+- Search and filters.
+- Add/Edit employee modal.
+- Employee detail panel.
+
+## 9.6. Customers
+
+Layout:
+- Customer statistics.
+- Customer directory.
+- Search and filters.
+- Customer profile drawer.
+- Purchase history.
+
+## 9.7. Reports & Analytics
+
+Layout:
+- Report category navigation.
+- Date range selector.
+- KPI summaries.
+- Charts.
+- Data tables.
+- Export actions.
+
+## 9.8. AI Assistant
+
+Layout:
+- Chat history sidebar.
+- Main conversation panel.
+- Suggested prompts.
+- Message input.
+- Data context indicator.
+
+AI responses should use structured formatting for financial figures, recommendations, and summaries.
+
+## 9.9. Settings & Data Management
+
+Layout:
+- Settings navigation.
+- Business profile form.
+- Preferences.
+- Data management cards.
+- Import/Export actions.
+- Storage information.
+
+---
+
+# 10. CHART DESIGN SYSTEM
+
+Charts must be clean and informative.
+
+## 10.1. Chart Types
+
+- Line Chart.
+- Area Chart.
+- Bar Chart.
+- Donut Chart.
+- Horizontal Bar Chart.
+
+## 10.2. Chart Colors
+
+Primary series:
+#234F80.
+
+Secondary series:
+#4C83C3.
+
+Additional series:
+#8AAFD5.
+#A9C7E4.
+
+Semantic series:
+Success: #16A36A.
+Warning: #E99A32.
+Danger: #DC5555.
+
+## 10.3. Chart Rules
+
+- Avoid unnecessary grid lines.
+- Use subtle axes.
+- Provide readable tooltips.
+- Include chart legends when needed.
+- Avoid excessive colors.
+- Ensure responsiveness.
+- Support empty states.
+- Use consistent number formatting.
+
+---
+
+# 11. ICONOGRAPHY
+
+Use Lucide React.
+
+Icon style:
+- Outline.
+- Consistent stroke width.
+- Simple and recognizable.
+
+Recommended icon mapping:
+
+| Feature | Icon |
+|---|---|
+| Overview | LayoutDashboard |
+| POS | ShoppingCart |
+| Inventory | Package |
+| Finance | Wallet |
+| Employees | Users |
+| Customers | Contact |
+| Reports | ChartNoAxesCombined |
+| AI | Sparkles |
+| Settings | Settings |
+| Data Management | Database |
+| Notifications | Bell |
+| Search | Search |
+| Export | FileSpreadsheet |
+| Backup | FileJson |
+
+Use consistent icon sizes:
+- Sidebar: 20px.
+- Buttons: 16px.
+- Card icons: 18–20px.
+- Empty states: 36–48px.
+
+---
+
+# 12. MOTION & MICRO-INTERACTIONS
+
+Animations should be subtle.
+
+Recommended:
+- Button hover transition: 150ms.
+- Card hover: 150–200ms.
+- Sidebar transition: 200ms.
+- Modal entrance: 180–220ms.
+- Dropdown transition: 120–150ms.
+
+Interaction:
+- Hover changes background or border.
+- Focus shows visible focus ring.
+- Active menu changes background and text color.
+- Modal appears with subtle fade and scale.
+- Toast enters and exits smoothly.
+
+Avoid:
+- Excessive bounce.
+- Large zoom animations.
+- Unnecessary parallax.
+- Constant decorative animation.
+
+Respect reduced-motion preferences.
+
+---
+
+# 13. RESPONSIVE DESIGN
+
+## Desktop: 1280px and above
+
+Full sidebar.
+Multi-column dashboard.
+Full data tables.
+
+## Tablet: 768px–1279px
+
+Collapsible sidebar.
+Reduced dashboard columns.
+Responsive tables.
+
+## Mobile: Below 768px
+
+Drawer navigation.
+Single-column layout.
+Stacked cards.
+Mobile-friendly forms.
+Responsive charts.
+Scrollable or card-based tables.
+
+Every module must remain usable on mobile.
+
+---
+
+# 14. ACCESSIBILITY
+
+- Use sufficient color contrast.
+- Provide visible keyboard focus.
+- Use semantic HTML.
+- Associate form labels with inputs.
+- Provide accessible button names.
+- Do not rely on color alone to communicate status.
+- Support keyboard navigation.
+- Respect reduced motion.
+- Ensure readable text sizes.
+
+---
+
+# 15. DESIGN TOKENS IMPLEMENTATION
+
+All design tokens should be centralized.
+
+Use CSS variables or Tailwind theme configuration.
+
+Suggested tokens:
+
+--color-primary: #234F80;
+--color-primary-dark: #14243A;
+--color-accent: #4C83C3;
+--color-background: #F4F7FB;
+--color-surface: #FFFFFF;
+--color-border: #E2E8F0;
+--color-text-primary: #1E293B;
+--color-text-secondary: #64748B;
+--color-success: #16A36A;
+--color-warning: #E99A32;
+--color-danger: #DC5555;
+
+--radius-sm: 8px;
+--radius-md: 12px;
+--radius-lg: 16px;
+
+--sidebar-width: 248px;
+--sidebar-collapsed-width: 72px;
+--header-height: 68px;
+
+Design values should not be independently hardcoded across components.
+
+---
+
+# 16. DESIGN QUALITY CHECKLIST
+
+Before considering a page complete, verify:
+
+- Consistent spacing.
+- Consistent typography.
+- Correct color usage.
+- Proper alignment.
+- Clear hierarchy.
+- Responsive behavior.
+- Correct hover states.
+- Correct focus states.
+- Functional buttons.
+- Readable tables.
+- Clear empty states.
+- Clear loading states.
+- Proper validation feedback.
+- No unnecessary visual clutter.
+- Consistent component behavior.
+
+---
+
+# 17. FINAL DESIGN DIRECTIVE
+
+NexaDesk must feel like a premium business SaaS product.
+
+The interface should prioritize information clarity, operational efficiency, and visual consistency.
+
+Do not generate generic admin dashboard designs.
+
+Do not use excessive gradients, oversized illustrations, unnecessary glassmorphism, heavy shadows, or decorative colors.
+
+Do not create a different visual style for each module.
+
+Every page must follow the same design system.
+
+The final result should be elegant, sophisticated, modern, professional, and practical for daily business operations.
+
+**NexaDesk — One Platform. Complete Business Control.**
+
+END OF DESIGN SYSTEM SPECIFICATION.

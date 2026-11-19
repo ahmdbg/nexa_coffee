@@ -1,0 +1,6 @@
+{
+  "name": "NexaDesk",
+  "description": "One Platform. Complete Business Control. Personal business management platform for POS, inventory, finance, employees, customers, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

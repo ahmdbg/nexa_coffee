@@ -1,0 +1,1754 @@
+# PRODUCT REQUIREMENTS DOCUMENT (PRD)
+# NEXADESK
+### Personal Business Management Platform
+
+**Document Version:** 1.0  
+**Product Name:** NexaDesk  
+**Product Type:** Personal Business Management System  
+**Development Approach:** Frontend-First / Client-Side Application  
+**Project Status:** Product Planning  
+**Primary Development Tool:** Google AI Studio  
+**Target Platform:** Web Application  
+**Primary Language:** Bahasa Indonesia (dengan struktur yang memungkinkan pengembangan bilingual)
+
+---
+
+# 1. PRODUCT OVERVIEW
+
+## 1.1. Product Description
+
+NexaDesk adalah aplikasi manajemen bisnis berbasis web yang dirancang untuk membantu pemilik usaha mengelola seluruh aktivitas operasional bisnis melalui satu platform terintegrasi.
+
+NexaDesk menyediakan berbagai modul pengelolaan bisnis, mulai dari pencatatan transaksi penjualan, manajemen inventaris, pengelolaan keuangan, pengelolaan karyawan, manajemen pelanggan, hingga analisis performa bisnis.
+
+Aplikasi ini juga dirancang dengan integrasi Artificial Intelligence (AI) sebagai asisten bisnis yang dapat membantu pengguna memahami kondisi usaha berdasarkan data operasional yang tersimpan.
+
+NexaDesk mengutamakan pengalaman pengguna yang sederhana, modern, elegan, dan profesional. Meskipun memiliki banyak fitur, setiap modul harus mudah dipahami dan digunakan.
+
+Pada tahap pengembangan awal, NexaDesk menggunakan pendekatan frontend-only tanpa backend maupun database server. Seluruh data operasional disimpan secara lokal menggunakan struktur JSON dan browser localStorage.
+
+Pengguna dapat melakukan ekspor data ke dalam format Excel (.xlsx) maupun JSON (.json) untuk kebutuhan pelaporan dan pencadangan data.
+
+## 1.2. Product Vision
+
+Menjadi platform manajemen bisnis pribadi yang menyediakan kendali penuh terhadap aktivitas operasional usaha melalui satu aplikasi yang terintegrasi, efisien, dan mudah digunakan.
+
+## 1.3. Product Mission
+
+1. Menyatukan berbagai aktivitas pengelolaan bisnis dalam satu aplikasi.
+2. Mempermudah pencatatan dan pemantauan transaksi.
+3. Membantu pengguna mengelola inventaris dan keuangan secara sistematis.
+4. Menyediakan informasi bisnis yang mudah dipahami melalui dashboard dan laporan.
+5. Memanfaatkan AI untuk memberikan wawasan dan rekomendasi berdasarkan data bisnis.
+6. Menyediakan sistem penyimpanan dan pencadangan data yang praktis.
+
+## 1.4. Product Positioning
+
+NexaDesk diposisikan sebagai personal business management platform dengan pengalaman penggunaan menyerupai produk SaaS profesional.
+
+NexaDesk bukan sekadar dashboard statistik atau aplikasi pencatatan transaksi sederhana. Setiap modul harus saling terhubung dan menggunakan sumber data yang konsisten.
+
+---
+
+# 2. PRODUCT OBJECTIVES
+
+Tujuan utama pengembangan NexaDesk adalah:
+
+1. Menyediakan sistem pengelolaan bisnis yang terintegrasi.
+2. Mempermudah pengelolaan produk dan inventaris.
+3. Menyediakan sistem POS yang dapat digunakan untuk transaksi sehari-hari.
+4. Mengotomatisasi pembaruan data antar-modul.
+5. Menyediakan laporan keuangan dan penjualan yang akurat berdasarkan data tersimpan.
+6. Menyediakan pengelolaan pelanggan, supplier, dan karyawan.
+7. Menyediakan asisten AI untuk membantu analisis bisnis.
+8. Memungkinkan seluruh data diunduh dalam format Excel dan JSON.
+9. Menghadirkan antarmuka yang elegan, responsif, dan mudah digunakan.
+
+## 2.1. Success Criteria
+
+Proyek dianggap berhasil apabila:
+
+- Seluruh halaman utama dapat diakses dan berfungsi.
+- Pengguna dapat melakukan operasi CRUD pada data yang relevan.
+- Data tetap tersedia setelah browser ditutup dan dibuka kembali.
+- Transaksi POS secara otomatis memperbarui inventaris dan laporan.
+- Perhitungan keuangan menggunakan data transaksi yang benar.
+- Pengguna dapat mencari, memfilter, dan mengurutkan data.
+- Pengguna dapat mengekspor data ke Excel.
+- Pengguna dapat melakukan backup dan restore menggunakan JSON.
+- Seluruh halaman memiliki tampilan konsisten.
+- Tidak terdapat tombol utama yang hanya bersifat dekoratif.
+- Aplikasi dapat digunakan pada desktop, tablet, dan mobile.
+
+---
+
+# 3. TARGET USERS
+
+## 3.1. Primary Users
+
+Pemilik usaha kecil dan menengah yang membutuhkan sistem pengelolaan bisnis terintegrasi.
+
+Target jenis usaha awal:
+
+- Coffee shop dan cafe.
+- Restoran dan bisnis makanan.
+- Toko retail.
+- Minimarket.
+- Bakery.
+- Usaha rumahan.
+
+## 3.2. Initial Demo Business
+
+Bisnis demo pertama yang digunakan dalam pengembangan adalah coffee shop.
+
+Alasan pemilihan:
+
+- Memiliki produk yang dapat dijual.
+- Memiliki bahan baku dan inventaris.
+- Memiliki transaksi penjualan.
+- Memiliki pemasukan dan pengeluaran.
+- Memiliki pelanggan.
+- Memiliki karyawan.
+- Memerlukan laporan performa bisnis.
+
+Dengan demikian, coffee shop dapat digunakan untuk menguji keterhubungan hampir seluruh modul NexaDesk.
+
+Nama bisnis demo dapat menggunakan "Nexa Coffee House".
+
+## 3.3. User Roles
+
+Pada tahap frontend-only, sistem menyediakan simulasi role pengguna.
+
+**Business Owner**
+- Memiliki akses ke seluruh modul.
+- Mengelola data bisnis.
+- Mengakses laporan keuangan.
+- Mengelola karyawan.
+- Mengakses AI Assistant.
+- Mengelola pengaturan aplikasi.
+
+**Manager**
+- Mengelola operasional bisnis.
+- Mengakses transaksi.
+- Mengelola produk dan inventaris.
+- Mengakses laporan operasional sesuai izin.
+
+**Cashier**
+- Mengakses POS.
+- Membuat transaksi.
+- Melihat riwayat transaksi yang diizinkan.
+
+**Inventory Staff**
+- Mengelola produk.
+- Memperbarui stok.
+- Melihat riwayat pergerakan inventaris.
+
+Catatan: Role dan permission pada versi frontend-only merupakan simulasi antarmuka, bukan sistem keamanan yang dapat dipercaya untuk membatasi akses secara aman. Pengamanan sesungguhnya memerlukan backend.
+
+---
+
+# 4. PRODUCT SCOPE
+
+NexaDesk terdiri atas sembilan modul utama:
+
+1. Overview Dashboard.
+2. Point of Sale.
+3. Inventory Management.
+4. Financial Management.
+5. Employee Management.
+6. Customer Management.
+7. Reports & Analytics.
+8. AI Business Assistant.
+9. Settings & Data Management.
+
+Selain itu, aplikasi menyediakan halaman pendukung:
+
+- Landing Page.
+- Login.
+- Register.
+- Forgot Password.
+- Business Setup.
+- Profile Settings.
+- Notifications.
+
+## 4.1. Development Priorities
+
+Pengembangan dibagi menjadi empat fase.
+
+**Phase 1 — Core System**
+- Design system.
+- Main layout.
+- Dashboard.
+- Product management.
+- Inventory management.
+- POS.
+- Transaction history.
+- Basic financial records.
+
+**Phase 2 — Business Management**
+- Employee management.
+- Customer management.
+- Supplier management.
+- Advanced financial management.
+- Reports & analytics.
+
+**Phase 3 — AI Integration**
+- Gemini API integration.
+- AI business assistant.
+- Business analysis.
+- Sales insights.
+- Inventory recommendations.
+
+**Phase 4 — Application Completion**
+- Settings.
+- Data management.
+- Excel export.
+- JSON backup and restore.
+- Responsive optimization.
+- Testing and refinement.
+
+---
+
+# 5. INFORMATION ARCHITECTURE
+
+## 5.1. Main Navigation
+
+Sidebar utama harus memiliki navigasi berikut:
+
+### MAIN MENU
+
+- Overview
+- Point of Sale
+- Inventory
+- Finance
+- Employees
+- Customers
+- Reports & Analytics
+- AI Assistant
+
+### MANAGEMENT
+
+- Settings
+- Data Management
+- Help & Information
+
+## 5.2. Navigation Behavior
+
+- Sidebar berada di sebelah kiri pada tampilan desktop.
+- Sidebar dapat diperluas dan diperkecil.
+- Menu aktif memiliki indikator visual yang jelas.
+- Navigasi tidak boleh menyebabkan reload seluruh aplikasi.
+- Halaman yang diakses menggunakan React Router.
+- Pada perangkat mobile, sidebar berubah menjadi drawer.
+- Setiap halaman memiliki breadcrumb apabila diperlukan.
+- Header menyediakan notifikasi, profil, dan identitas bisnis aktif.
+
+---
+
+# 6. FUNCTIONAL REQUIREMENTS
+
+# 6.1. OVERVIEW DASHBOARD
+
+## Purpose
+
+Menampilkan ringkasan kondisi bisnis secara keseluruhan dalam satu halaman.
+
+Dashboard merupakan halaman utama yang memberikan gambaran performa bisnis secara cepat.
+
+## Main Components
+
+### A. Welcome Header
+
+Menampilkan:
+- Sapaan pengguna.
+- Nama bisnis aktif.
+- Tanggal saat ini.
+- Tombol pengaturan rentang tanggal.
+- Tombol akses cepat.
+
+### B. KPI Cards
+
+Empat kartu utama:
+
+**Total Revenue**
+Jumlah seluruh pendapatan penjualan pada periode yang dipilih.
+
+**Net Profit**
+Pendapatan dikurangi seluruh biaya yang diperhitungkan dalam laporan laba rugi.
+
+**Total Expenses**
+Jumlah pengeluaran bisnis pada periode yang dipilih.
+
+**Total Transactions**
+Jumlah transaksi penjualan yang berhasil diselesaikan.
+
+Setiap kartu menampilkan:
+- Nilai utama.
+- Perbandingan terhadap periode sebelumnya.
+- Indikator kenaikan atau penurunan.
+- Icon yang relevan.
+
+### C. Sales Overview Chart
+
+Menampilkan grafik performa penjualan.
+
+Fitur:
+- Daily.
+- Weekly.
+- Monthly.
+- Yearly.
+- Date range filter.
+
+Grafik harus mengambil data dari transaksi yang tersimpan.
+
+### D. Revenue Breakdown
+
+Menampilkan komposisi pendapatan berdasarkan kategori atau metode pembayaran.
+
+### E. Top Selling Products
+
+Menampilkan produk dengan jumlah penjualan tertinggi.
+
+Informasi:
+- Nama produk.
+- Jumlah terjual.
+- Total pendapatan.
+- Persentase kontribusi.
+
+### F. Recent Transactions
+
+Menampilkan transaksi terbaru.
+
+Kolom:
+- Transaction ID.
+- Customer.
+- Date.
+- Total.
+- Payment Method.
+- Status.
+
+### G. Low Stock Alerts
+
+Menampilkan produk yang stoknya berada pada atau di bawah batas minimum.
+
+### H. Quick Actions
+
+Menyediakan akses cepat ke:
+- New Transaction.
+- Add Product.
+- Add Expense.
+- Add Customer.
+
+## Business Rules
+
+- Semua data dashboard berasal dari sumber data yang sama dengan modul lainnya.
+- Filter tanggal memengaruhi seluruh komponen yang relevan.
+- Transaksi yang dibatalkan tidak dihitung sebagai penjualan.
+- Perhitungan keuntungan harus mempertimbangkan harga modal dan biaya terkait.
+- Dashboard tidak boleh menggunakan angka dummy setelah data operasional tersedia.
+
+---
+
+# 6.2. POINT OF SALE (POS)
+
+## Purpose
+
+Menyediakan sistem transaksi penjualan yang praktis dan efisien.
+
+POS merupakan salah satu modul paling penting dalam NexaDesk.
+
+## A. Product Selection
+
+Menampilkan daftar produk yang dapat dijual.
+
+Informasi:
+- Foto produk.
+- Nama produk.
+- SKU.
+- Kategori.
+- Harga jual.
+- Ketersediaan stok.
+
+Fitur:
+- Search product.
+- Category filter.
+- Product grid.
+- Product selection.
+- Stock availability indicator.
+
+Produk yang tidak memiliki stok tersedia tidak dapat ditambahkan ke transaksi.
+
+## B. Shopping Cart
+
+Setelah produk dipilih, produk dimasukkan ke keranjang.
+
+Fitur:
+- Add item.
+- Remove item.
+- Increase quantity.
+- Decrease quantity.
+- Edit quantity.
+- Perhitungan subtotal otomatis.
+
+Sistem harus mencegah jumlah pembelian melebihi stok yang tersedia.
+
+## C. Customer Selection
+
+Pengguna dapat:
+- Memilih pelanggan yang sudah terdaftar.
+- Membuat pelanggan baru.
+- Melakukan transaksi tanpa identitas pelanggan.
+
+## D. Discount & Tax
+
+Menyediakan:
+- Diskon per transaksi.
+- Diskon per item jika diperlukan.
+- Pengaturan pajak.
+- Perhitungan total otomatis.
+
+Diskon dan pajak harus menggunakan aturan yang konsisten.
+
+## E. Payment
+
+Metode pembayaran:
+- Cash.
+- Bank Transfer.
+- E-Wallet.
+- Other.
+
+Untuk pembayaran tunai:
+- Input jumlah uang diterima.
+- Perhitungan uang kembalian otomatis.
+
+## F. Checkout
+
+Sebelum transaksi disimpan, sistem menampilkan ringkasan:
+
+- Customer.
+- Products.
+- Quantity.
+- Subtotal.
+- Discount.
+- Tax.
+- Grand Total.
+- Payment Method.
+- Amount Paid.
+- Change.
+
+Pengguna harus mengonfirmasi transaksi sebelum penyimpanan dilakukan.
+
+## G. Transaction Result
+
+Setelah transaksi berhasil:
+
+- Data transaksi disimpan.
+- Stok produk diperbarui.
+- Riwayat inventaris dibuat.
+- Pemasukan tercatat.
+- Dashboard diperbarui.
+- Laporan penjualan diperbarui.
+- Struk dapat ditampilkan dan dicetak.
+
+## H. Receipt
+
+Struk memuat:
+- Logo dan nama bisnis.
+- Alamat bisnis.
+- Nomor transaksi.
+- Tanggal dan waktu.
+- Nama kasir.
+- Detail produk.
+- Subtotal.
+- Diskon.
+- Pajak.
+- Total pembayaran.
+- Metode pembayaran.
+- Uang diterima dan kembalian.
+
+Struk harus memiliki tampilan yang sesuai untuk pencetakan.
+
+## I. Transaction History
+
+Menampilkan seluruh transaksi.
+
+Fitur:
+- Search transaction.
+- Filter date.
+- Filter payment method.
+- Filter status.
+- Sort.
+- View detail.
+- Print receipt.
+- Export.
+
+## J. Transaction Cancellation
+
+Transaksi yang dibatalkan harus memiliki proses pembatalan yang terkontrol.
+
+Ketentuan:
+- Transaksi tidak langsung dihapus.
+- Status berubah menjadi cancelled.
+- Stok yang sebelumnya berkurang harus dikembalikan.
+- Riwayat pergerakan stok pembatalan dibuat.
+- Dampak transaksi terhadap laporan harus dibalik.
+- Alasan pembatalan dicatat.
+
+---
+
+# 6.3. INVENTORY MANAGEMENT
+
+## Purpose
+
+Mengelola produk, persediaan, dan pergerakan stok.
+
+## A. Product Management
+
+Fitur:
+- Add Product.
+- Edit Product.
+- View Product Detail.
+- Archive Product.
+- Search Product.
+- Filter Category.
+- Sort Products.
+
+Informasi produk:
+
+- Product ID.
+- Product Name.
+- SKU.
+- Barcode (opsional).
+- Category.
+- Description.
+- Product Image.
+- Cost Price.
+- Selling Price.
+- Current Stock.
+- Minimum Stock.
+- Unit.
+- Supplier.
+- Product Status.
+- Created Date.
+- Updated Date.
+
+## B. Product Categories
+
+Pengguna dapat:
+- Menambah kategori.
+- Mengubah kategori.
+- Mengarsipkan kategori.
+- Melihat jumlah produk dalam kategori.
+
+Kategori awal untuk bisnis demo:
+- Coffee.
+- Non-Coffee.
+- Food.
+- Snack.
+- Merchandise.
+
+## C. Stock Management
+
+Jenis pergerakan stok:
+
+- Stock In.
+- Stock Out.
+- Stock Adjustment.
+- Stock Return.
+- Transaction Deduction.
+- Transaction Cancellation.
+
+Setiap pergerakan stok wajib memiliki riwayat.
+
+Informasi:
+- Movement ID.
+- Product ID.
+- Movement Type.
+- Quantity.
+- Previous Stock.
+- New Stock.
+- Date.
+- Notes.
+- Reference ID.
+
+## D. Low Stock Alerts
+
+Produk ditandai sebagai low stock apabila:
+
+Current Stock <= Minimum Stock.
+
+Produk dengan stok nol ditandai sebagai out of stock.
+
+## E. Stock Adjustment
+
+Pengguna dapat melakukan penyesuaian stok.
+
+Sistem meminta:
+- Produk.
+- Stok saat ini.
+- Jumlah penyesuaian.
+- Stok setelah penyesuaian.
+- Alasan penyesuaian.
+
+Semua perubahan harus tercatat dalam inventory movement history.
+
+## F. Supplier Management
+
+Data supplier mencakup:
+- Supplier ID.
+- Supplier Name.
+- Contact Person.
+- Phone.
+- Email.
+- Address.
+- Notes.
+- Status.
+
+Pengguna dapat menghubungkan produk dengan supplier.
+
+## G. Inventory Reports
+
+Menampilkan:
+- Total produk.
+- Total nilai persediaan.
+- Low stock products.
+- Out of stock products.
+- Stock movement history.
+- Product stock summary.
+
+---
+
+# 6.4. FINANCIAL MANAGEMENT
+
+## Purpose
+
+Membantu pengguna memantau pemasukan, pengeluaran, keuntungan, dan arus kas bisnis.
+
+## A. Financial Overview
+
+Menampilkan:
+- Total Income.
+- Total Expenses.
+- Gross Profit.
+- Net Profit.
+- Cash Flow.
+
+## B. Income Management
+
+Pemasukan dapat berasal dari:
+- Penjualan POS.
+- Pemasukan non-penjualan.
+- Pendapatan lainnya.
+
+Informasi:
+- Income ID.
+- Description.
+- Category.
+- Amount.
+- Date.
+- Payment Method.
+- Notes.
+
+Pemasukan dari POS dibuat otomatis dan tidak boleh dicatat dua kali secara manual.
+
+## C. Expense Management
+
+Pengguna dapat:
+- Add Expense.
+- Edit Expense.
+- Delete Expense dengan konfirmasi.
+- View Expense Detail.
+- Filter Expense.
+- Search Expense.
+
+Informasi:
+- Expense ID.
+- Description.
+- Category.
+- Amount.
+- Date.
+- Payment Method.
+- Notes.
+- Attachment (opsional).
+
+Kategori pengeluaran:
+- Rent.
+- Electricity.
+- Water.
+- Salary.
+- Ingredients.
+- Transportation.
+- Marketing.
+- Maintenance.
+- Other.
+
+## D. Profit & Loss Report
+
+Laporan laba rugi mencakup:
+
+Revenue  
+- Sales Returns / Discounts  
+= Net Revenue
+
+Net Revenue  
+- Cost of Goods Sold  
+= Gross Profit
+
+Gross Profit  
+- Operating Expenses  
+= Net Profit
+
+Perhitungan harus konsisten dan tidak menghitung pengeluaran atau diskon dua kali.
+
+## E. Cash Flow
+
+Menampilkan:
+- Cash In.
+- Cash Out.
+- Net Cash Flow.
+- Running Balance.
+
+Cash flow merupakan pencatatan arus kas, sehingga harus dibedakan dari laba rugi berbasis pendapatan dan biaya.
+
+## F. Financial Filters
+
+- Today.
+- This Week.
+- This Month.
+- This Year.
+- Custom Date Range.
+
+---
+
+# 6.5. EMPLOYEE MANAGEMENT
+
+## Purpose
+
+Mengelola informasi karyawan dan pembagian tanggung jawab.
+
+## A. Employee Directory
+
+Informasi:
+- Employee ID.
+- Full Name.
+- Email.
+- Phone.
+- Position.
+- Role.
+- Join Date.
+- Employment Status.
+- Profile Photo.
+
+## B. Employee Management Features
+
+- Add Employee.
+- Edit Employee.
+- View Employee Profile.
+- Archive Employee.
+- Search Employee.
+- Filter Position.
+- Filter Status.
+
+## C. Role Management
+
+Role:
+- Owner.
+- Manager.
+- Cashier.
+- Inventory Staff.
+
+Setiap role memiliki daftar permission yang dapat dikonfigurasi dalam aplikasi.
+
+## D. Activity History
+
+Menampilkan simulasi aktivitas karyawan:
+- Transaction created.
+- Product updated.
+- Stock adjusted.
+- Expense recorded.
+
+Catatan aktivitas tidak boleh direkayasa seolah-olah merupakan log keamanan server. Pada versi lokal, data aktivitas hanya mencatat tindakan yang dilakukan melalui aplikasi.
+
+---
+
+# 6.6. CUSTOMER MANAGEMENT (CRM)
+
+## Purpose
+
+Mengelola informasi pelanggan dan riwayat pembelian.
+
+## A. Customer Directory
+
+Informasi:
+- Customer ID.
+- Full Name.
+- Phone.
+- Email.
+- Address.
+- Customer Type.
+- Join Date.
+- Notes.
+
+## B. Customer Features
+
+- Add Customer.
+- Edit Customer.
+- View Customer Detail.
+- Archive Customer.
+- Search Customer.
+- Filter Customer.
+
+## C. Purchase History
+
+Menampilkan:
+- Transaction History.
+- Total Transactions.
+- Total Spending.
+- Last Purchase.
+- Most Purchased Products.
+
+## D. Customer Analytics
+
+Kategori pelanggan dapat ditentukan berdasarkan frekuensi transaksi dan total pembelian.
+
+Contoh:
+- New Customer.
+- Regular Customer.
+- Loyal Customer.
+
+Kriteria segmentasi harus dapat dikonfigurasi atau dijelaskan secara transparan.
+
+---
+
+# 6.7. REPORTS & ANALYTICS
+
+## Purpose
+
+Menyediakan laporan terperinci untuk membantu pengguna mengevaluasi performa bisnis.
+
+## A. Sales Report
+
+Informasi:
+- Total Revenue.
+- Total Transactions.
+- Average Transaction Value.
+- Total Items Sold.
+- Sales by Date.
+- Sales by Product.
+- Sales by Category.
+- Sales by Payment Method.
+
+## B. Product Performance
+
+Menampilkan:
+- Best Selling Products.
+- Lowest Selling Products.
+- Product Revenue.
+- Product Profit.
+- Quantity Sold.
+
+## C. Inventory Report
+
+Menampilkan:
+- Current Stock.
+- Stock Value.
+- Stock Movement.
+- Low Stock.
+- Out of Stock.
+
+## D. Financial Report
+
+Menampilkan:
+- Income Report.
+- Expense Report.
+- Profit & Loss.
+- Cash Flow.
+
+## E. Employee Report
+
+Menampilkan:
+- Transaction Count by Employee.
+- Sales by Employee.
+- Activity Summary.
+
+## F. Report Filters
+
+Seluruh laporan harus mendukung filter yang relevan:
+- Date Range.
+- Category.
+- Product.
+- Payment Method.
+- Employee.
+
+## G. Export Reports
+
+Pengguna dapat mengekspor laporan menjadi:
+- Excel (.xlsx).
+- PDF (opsional, pengembangan lanjutan).
+
+---
+
+# 6.8. AI BUSINESS ASSISTANT
+
+## Purpose
+
+Menyediakan asisten bisnis berbasis AI yang dapat membantu pengguna menganalisis kondisi usaha.
+
+AI menggunakan Google Gemini API.
+
+## A. AI Chat Interface
+
+Fitur:
+- Chat interface.
+- Conversation history.
+- New Conversation.
+- Clear Conversation.
+- Suggested Questions.
+- Loading State.
+- Error Handling.
+
+## B. Business Data Analysis
+
+AI dapat membantu menjawab:
+
+1. Bagaimana performa penjualan bulan ini?
+2. Apa produk paling laris?
+3. Produk apa yang memiliki kontribusi pendapatan terbesar?
+4. Mengapa keuntungan menurun?
+5. Berapa total pengeluaran bulan ini?
+6. Produk apa yang perlu segera di-restock?
+7. Bagaimana perbandingan penjualan antarperiode?
+8. Apa rekomendasi untuk meningkatkan performa bisnis?
+
+## C. Data Context
+
+AI hanya boleh menganalisis data bisnis yang tersedia dan relevan.
+
+Data yang dapat digunakan:
+- Transactions.
+- Products.
+- Inventory.
+- Expenses.
+- Customers.
+- Reports.
+
+Data harus diringkas sebelum dikirim ke Gemini API.
+
+## D. AI Response Requirements
+
+AI harus:
+- Menggunakan angka berdasarkan data yang diberikan.
+- Menjelaskan periode analisis.
+- Menghindari klaim tanpa dasar.
+- Mengakui apabila data tidak mencukupi.
+- Memberikan rekomendasi yang masuk akal.
+- Membedakan fakta dan perkiraan.
+
+## E. AI Security
+
+Karena aplikasi tidak menggunakan backend:
+
+- Jangan menanam API key permanen dalam source code frontend.
+- Integrasi Gemini langsung dari browser hanya boleh dianggap sebagai prototipe.
+- Sediakan konfigurasi API key secara lokal jika memang diperlukan untuk eksperimen.
+- Jangan mengekspor API key ke file backup.
+- Jangan mengirim seluruh data bisnis apabila tidak diperlukan.
+- Berikan informasi kepada pengguna sebelum data dikirim ke layanan AI.
+
+Untuk penggunaan yang benar-benar aman, integrasi AI memerlukan perantara backend atau layanan proxy yang aman. Jika tidak tersedia, AI Assistant dapat menggunakan demo mode tanpa koneksi eksternal.
+
+---
+
+# 6.9. SETTINGS & DATA MANAGEMENT
+
+## Purpose
+
+Mengelola identitas bisnis, preferensi aplikasi, dan seluruh data lokal.
+
+## A. Business Profile
+
+Informasi:
+- Business Name.
+- Business Logo.
+- Business Address.
+- Phone.
+- Email.
+- Business Category.
+- Currency.
+- Tax Configuration.
+
+## B. Application Preferences
+
+Pengaturan:
+- Language.
+- Theme.
+- Date Format.
+- Number Format.
+- Currency.
+- Notification Preferences.
+
+## C. Data Management Center
+
+Halaman khusus untuk mengelola data aplikasi.
+
+### JSON Export
+
+Pengguna dapat mengunduh seluruh data bisnis ke dalam satu file JSON.
+
+Contoh nama file:
+
+NexaDesk_Backup_YYYY-MM-DD.json
+
+File backup harus mencakup:
+- Business Profile.
+- Products.
+- Categories.
+- Inventory Movements.
+- Suppliers.
+- Customers.
+- Employees.
+- Transactions.
+- Transaction Items.
+- Expenses.
+- Financial Records.
+- Application Settings yang relevan.
+
+Jangan menyertakan:
+- API Keys.
+- Credential sensitif.
+- Data internal browser.
+- Informasi yang tidak diperlukan untuk pemulihan.
+
+### JSON Import / Restore
+
+Pengguna dapat mengunggah file backup.
+
+Proses:
+1. Memilih file JSON.
+2. Validasi format.
+3. Validasi versi struktur.
+4. Memeriksa integritas relasi data.
+5. Menampilkan ringkasan isi backup.
+6. Meminta konfirmasi.
+7. Membuat backup kondisi saat ini.
+8. Melakukan pemulihan data.
+9. Menampilkan notifikasi hasil.
+
+Import harus memiliki mekanisme rollback apabila proses gagal.
+
+### Excel Export
+
+Pengguna dapat mengunduh seluruh data operasional dalam format XLSX.
+
+Satu workbook dapat berisi beberapa worksheet:
+
+1. Business Summary.
+2. Products.
+3. Categories.
+4. Inventory.
+5. Inventory Movements.
+6. Transactions.
+7. Transaction Items.
+8. Customers.
+9. Suppliers.
+10. Employees.
+11. Expenses.
+12. Income.
+13. Financial Summary.
+
+Pengguna juga harus dapat mengekspor data tertentu saja.
+
+Contoh:
+- Export Products Only.
+- Export Transactions Only.
+- Export Expenses Only.
+- Export Customers Only.
+- Export Custom Report.
+
+Setiap worksheet harus memiliki:
+- Nama kolom yang jelas.
+- Header yang konsisten.
+- Format angka dan tanggal yang benar.
+- Data sesuai filter yang dipilih.
+
+### Data Reset
+
+Fitur untuk mengembalikan aplikasi ke kondisi awal.
+
+Ketentuan:
+- Menampilkan peringatan.
+- Meminta konfirmasi eksplisit.
+- Menjelaskan bahwa data akan dihapus.
+- Menawarkan backup terlebih dahulu.
+- Menampilkan hasil setelah reset.
+
+---
+
+# 7. DATA ARCHITECTURE
+
+## 7.1. Storage Strategy
+
+NexaDesk menggunakan pendekatan local-first.
+
+Format data utama adalah JSON.
+
+Penyimpanan utama menggunakan browser localStorage.
+
+Initial JSON digunakan untuk menyediakan data awal.
+
+Seluruh perubahan disimpan melalui centralized storage service.
+
+Tidak boleh ada komponen yang menulis data secara langsung ke localStorage tanpa melalui service layer.
+
+## 7.2. Suggested Data Structure
+
+Struktur data utama:
+
+{
+  "schemaVersion": 1,
+  "business": {},
+  "settings": {},
+  "products": [],
+  "categories": [],
+  "inventoryMovements": [],
+  "suppliers": [],
+  "customers": [],
+  "employees": [],
+  "transactions": [],
+  "expenses": [],
+  "income": [],
+  "notifications": [],
+  "auditLogs": []
+}
+
+Data di atas merupakan gambaran struktur. Implementasi sebenarnya harus menggunakan TypeScript interfaces dan validation schemas.
+
+## 7.3. Data Identification
+
+Setiap entitas harus mempunyai identifier unik.
+
+Contoh:
+- Product ID.
+- Transaction ID.
+- Customer ID.
+- Employee ID.
+- Supplier ID.
+- Expense ID.
+
+Gunakan UUID agar ID tidak bertabrakan.
+
+## 7.4. Data Relationships
+
+Relasi utama:
+
+- Transaction memiliki banyak Transaction Items.
+- Transaction Item mengacu pada Product.
+- Product memiliki Category.
+- Product dapat terhubung ke Supplier.
+- Inventory Movement mengacu pada Product.
+- Transaction dapat mengacu pada Customer.
+- Transaction dapat mengacu pada Employee.
+- Expense memiliki Category.
+- Employee memiliki Role.
+
+Data yang dihapus tetapi masih memiliki riwayat transaksi sebaiknya diarsipkan, bukan dihapus secara permanen.
+
+## 7.5. Storage Service
+
+Sediakan fungsi terpusat:
+
+- getData()
+- saveData()
+- updateData()
+- resetData()
+- importData()
+- exportData()
+- validateData()
+
+Fungsi penyimpanan harus menangani error, validasi, dan sinkronisasi state aplikasi.
+
+## 7.6. Persistence
+
+Setiap perubahan harus disimpan secara konsisten.
+
+Contoh:
+- Produk baru langsung tersimpan.
+- Transaksi selesai langsung tersimpan.
+- Perubahan stok langsung tersimpan.
+- Pengeluaran baru langsung tersimpan.
+
+Aplikasi harus dapat memulihkan data setelah browser direfresh.
+
+Perlu disediakan mekanisme penanganan storage quota dan data corruption.
+
+Catatan: localStorage memiliki kapasitas terbatas dan tidak mendukung akses multi-device. Untuk kebutuhan pribadi, keterbatasan ini dapat diterima selama ukuran data dipantau.
+
+---
+
+# 8. CROSS-MODULE BUSINESS LOGIC
+
+Semua modul harus saling terintegrasi.
+
+## 8.1. POS to Inventory
+
+Ketika transaksi berhasil:
+- Kurangi stok produk.
+- Buat inventory movement.
+- Simpan referensi transaction ID.
+
+Ketika transaksi dibatalkan:
+- Kembalikan stok.
+- Buat inventory movement pembatalan.
+
+## 8.2. POS to Finance
+
+Ketika transaksi berhasil:
+- Catat pemasukan penjualan.
+- Catat diskon dan pajak sesuai konfigurasi.
+- Hitung nilai harga pokok penjualan.
+- Perbarui laporan keuangan.
+
+Jangan mencatat pemasukan POS dua kali.
+
+## 8.3. POS to Customers
+
+Jika transaksi menggunakan pelanggan terdaftar:
+- Tambahkan riwayat pembelian.
+- Perbarui total transaksi.
+- Perbarui total spending.
+- Perbarui last purchase.
+
+## 8.4. POS to Employees
+
+Transaksi mencatat identitas kasir.
+
+## 8.5. Inventory to Dashboard
+
+Perubahan stok harus memperbarui:
+- Low Stock Alerts.
+- Out of Stock Products.
+- Inventory Summary.
+
+## 8.6. Finance to Dashboard
+
+Perubahan keuangan harus memperbarui:
+- Revenue.
+- Expenses.
+- Profit.
+- Cash Flow.
+
+## 8.7. Reports to All Modules
+
+Laporan harus menggunakan sumber data operasional yang sama.
+
+Tidak boleh ada duplikasi dataset yang menyebabkan perbedaan angka antarhalaman.
+
+---
+
+# 9. UI/UX DESIGN SYSTEM
+
+## 9.1. Design Philosophy
+
+NexaDesk menggunakan pendekatan:
+
+Modern Minimalist SaaS + Premium Business Dashboard.
+
+Karakteristik:
+- Elegant.
+- Clean.
+- Professional.
+- Minimalist.
+- Modern.
+- Functional.
+- Consistent.
+
+Desain tidak boleh terlihat seperti template admin generik.
+
+## 9.2. Color Palette
+
+Primary:
+- Midnight Navy: #14243A
+- Nexa Blue: #234F80
+- Accent Blue: #4C83C3
+
+Neutral:
+- Canvas: #F4F7FB
+- White: #FFFFFF
+- Slate: #64748B
+- Border: #E2E8F0
+- Text: #1E293B
+
+Semantic:
+- Success: #16A36A
+- Warning: #E99A32
+- Danger: #DC5555
+- Info: #4C83C3
+
+Warna harus digunakan secara konsisten.
+
+## 9.3. Typography
+
+Primary font:
+Inter.
+
+Alternative:
+Plus Jakarta Sans.
+
+Hierarchy:
+- Page Title.
+- Section Heading.
+- Card Heading.
+- Body.
+- Supporting Text.
+- Metadata.
+
+## 9.4. Layout
+
+Desktop:
+- Sidebar fixed.
+- Header top.
+- Main content scrollable.
+- Dashboard menggunakan grid layout.
+
+Tablet:
+- Sidebar collapsible.
+- Grid menyesuaikan lebar.
+
+Mobile:
+- Sidebar berubah menjadi drawer.
+- Layout menjadi satu kolom jika diperlukan.
+- Tabel menggunakan responsive overflow atau mobile card view.
+- Form menggunakan lebar layar yang tersedia.
+
+## 9.5. Component Standards
+
+Reusable components:
+- Button.
+- Input.
+- Select.
+- Textarea.
+- Date Picker.
+- Modal.
+- Dropdown.
+- Data Table.
+- Pagination.
+- Search Bar.
+- Filter.
+- Badge.
+- Toast.
+- Tooltip.
+- Card.
+- Stat Card.
+- Chart Container.
+- Empty State.
+- Loading State.
+- Error State.
+- Confirmation Dialog.
+
+## 9.6. Interaction Design
+
+Setiap interaksi harus memiliki feedback.
+
+Contoh:
+- Save berhasil: success toast.
+- Validasi gagal: error message.
+- Loading: loading indicator.
+- Delete: confirmation modal.
+- Data kosong: empty state.
+- Import berhasil: success notification.
+- Export berhasil: download file.
+
+Gunakan animasi seperlunya dan hindari transisi yang mengganggu.
+
+## 9.7. Theme
+
+Default:
+Light Mode.
+
+Future enhancement:
+Dark Mode.
+
+---
+
+# 10. TECHNICAL REQUIREMENTS
+
+## 10.1. Technology Stack
+
+Frontend:
+- React.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+
+Routing:
+- React Router.
+
+Charts:
+- Recharts.
+
+Icons:
+- Lucide React.
+
+Forms:
+- React Hook Form.
+
+Validation:
+- Zod.
+
+Excel:
+- SheetJS (xlsx).
+
+Storage:
+- localStorage.
+- JSON.
+
+Date:
+- date-fns.
+
+Unique IDs:
+- UUID.
+
+AI:
+- Google Gemini API, optional integration.
+
+## 10.2. Project Structure
+
+Suggested structure:
+
+src/
+├── assets/
+├── components/
+│   ├── ui/
+│   ├── layout/
+│   ├── common/
+│   └── dashboard/
+├── pages/
+│   ├── Dashboard/
+│   ├── POS/
+│   ├── Inventory/
+│   ├── Finance/
+│   ├── Employees/
+│   ├── Customers/
+│   ├── Reports/
+│   ├── AI/
+│   └── Settings/
+├── data/
+│   ├── initialData.json
+│   └── demoData.json
+├── services/
+│   ├── storageService.ts
+│   ├── productService.ts
+│   ├── transactionService.ts
+│   ├── inventoryService.ts
+│   ├── financeService.ts
+│   └── exportService.ts
+├── hooks/
+├── types/
+├── utils/
+├── schemas/
+├── constants/
+├── App.tsx
+└── main.tsx
+
+## 10.3. Code Quality
+
+Ketentuan:
+- Gunakan TypeScript.
+- Hindari penggunaan any tanpa alasan.
+- Gunakan reusable components.
+- Pisahkan business logic dari UI.
+- Hindari komponen yang terlalu besar.
+- Gunakan centralized state management sesuai kebutuhan.
+- Gunakan consistent naming conventions.
+- Hindari duplikasi kode.
+- Pastikan seluruh komponen memiliki tanggung jawab yang jelas.
+
+## 10.4. State Management
+
+Gunakan state management terpusat untuk data yang dipakai oleh banyak modul.
+
+Pilihan implementasi:
+- React Context atau Zustand.
+
+Seluruh perubahan data harus melalui action atau service yang terstruktur.
+
+## 10.5. Error Handling
+
+Sistem harus menangani:
+- Invalid JSON.
+- Corrupted localStorage.
+- Missing fields.
+- Invalid references.
+- Duplicate IDs.
+- Storage quota exceeded.
+- Invalid transaction.
+- Insufficient stock.
+- Failed import.
+- Failed export.
+
+---
+
+# 11. NON-FUNCTIONAL REQUIREMENTS
+
+## 11.1. Performance
+
+- Navigasi harus terasa responsif.
+- Hindari rendering yang tidak diperlukan.
+- Optimalkan tabel dengan banyak data.
+- Grafik tidak boleh menghambat navigasi.
+- Gunakan lazy loading untuk halaman yang sesuai.
+
+## 11.2. Reliability
+
+- Data harus tetap tersimpan setelah refresh.
+- Operasi transaksi harus konsisten.
+- Perubahan stok harus tercatat.
+- Proses import tidak boleh merusak data sebelumnya.
+- Perhitungan laporan harus konsisten.
+
+## 11.3. Usability
+
+- Navigasi mudah dipahami.
+- Form tidak membingungkan.
+- Istilah bisnis digunakan secara konsisten.
+- Informasi penting mudah ditemukan.
+- Pengguna mendapat feedback pada setiap tindakan.
+
+## 11.4. Privacy
+
+- Data operasional disimpan lokal.
+- Tidak ada sinkronisasi otomatis ke cloud.
+- Data tidak dikirim ke pihak ketiga tanpa kebutuhan yang jelas.
+- Pengiriman data ke AI harus dijelaskan kepada pengguna.
+
+## 11.5. Browser Compatibility
+
+Target:
+- Google Chrome.
+- Microsoft Edge.
+- Browser modern berbasis Chromium.
+
+---
+
+# 12. SAMPLE DATA & DEMO ENVIRONMENT
+
+NexaDesk harus menyediakan initial demo data yang realistis.
+
+Bisnis demo:
+Nexa Coffee House.
+
+Data demo meliputi:
+
+Products:
+- Espresso.
+- Americano.
+- Cafe Latte.
+- Cappuccino.
+- Matcha Latte.
+- Chocolate.
+- Croissant.
+- Brownies.
+
+Categories:
+- Coffee.
+- Non-Coffee.
+- Food.
+- Snack.
+
+Employees:
+- Business Owner.
+- Manager.
+- Cashier.
+- Inventory Staff.
+
+Customers:
+- Beberapa pelanggan dengan riwayat pembelian berbeda.
+
+Transactions:
+- Transaksi dengan tanggal, item, kuantitas, harga, dan metode pembayaran bervariasi.
+
+Expenses:
+- Rent.
+- Electricity.
+- Water.
+- Ingredients.
+- Salary.
+- Marketing.
+
+Data harus saling terhubung dan konsisten.
+
+Contohnya, jumlah penjualan pada laporan harus sesuai dengan total transaksi yang tersedia.
+
+Demo data hanya digunakan untuk pengalaman awal. Pengguna harus dapat mengubah atau menghapusnya.
+
+---
+
+# 13. ACCEPTANCE CRITERIA
+
+## Dashboard
+- Semua KPI dihitung dari data aktual.
+- Filter tanggal bekerja.
+- Grafik mengikuti filter.
+- Recent transactions menampilkan transaksi terbaru.
+
+## POS
+- Produk dapat ditambahkan ke keranjang.
+- Quantity dapat diubah.
+- Total dihitung otomatis.
+- Stok tidak boleh negatif.
+- Checkout menghasilkan transaksi.
+- Stok otomatis berkurang.
+- Struk dapat dicetak.
+
+## Inventory
+- Produk dapat ditambahkan, diedit, dan diarsipkan.
+- Perubahan stok tercatat.
+- Low stock alert bekerja.
+- Riwayat pergerakan stok tersedia.
+
+## Finance
+- Pengeluaran dapat dicatat.
+- Pemasukan POS otomatis tercatat.
+- Laba rugi dihitung dengan benar.
+- Cash flow dapat dilihat.
+
+## Employees
+- Data karyawan dapat dikelola.
+- Role dapat ditentukan.
+- Status karyawan dapat diperbarui.
+
+## Customers
+- Data pelanggan dapat dikelola.
+- Riwayat pembelian tersedia.
+- Statistik pembelian dihitung dari transaksi.
+
+## Reports
+- Filter tanggal berfungsi.
+- Laporan sesuai sumber data.
+- Export menghasilkan file yang valid.
+
+## AI
+- AI dapat menerima pertanyaan.
+- AI menggunakan konteks data yang relevan.
+- AI tidak mengarang angka.
+- AI memberikan pesan ketika data tidak cukup.
+
+## Data Management
+- JSON export berhasil.
+- JSON import berhasil.
+- Validasi file berjalan.
+- Excel export berhasil.
+- Reset data memerlukan konfirmasi.
+
+## Persistence
+- Data bertahan setelah refresh.
+- Data bertahan setelah browser ditutup.
+- Tidak ada kehilangan data akibat perpindahan halaman.
+
+---
+
+# 14. OUT OF SCOPE
+
+Fitur berikut tidak menjadi bagian dari tahap awal:
+
+- Backend server.
+- PostgreSQL server.
+- Supabase database.
+- Real-time cloud synchronization.
+- Multi-device synchronization.
+- Online multi-user collaboration.
+- Payment gateway sungguhan.
+- WhatsApp API.
+- Email automation.
+- Payroll automation.
+- Akuntansi perpajakan profesional.
+- Mobile native application.
+- Integrasi perangkat kasir fisik.
+- Multi-branch cloud management.
+
+Fitur tersebut dapat dipertimbangkan pada pengembangan lanjutan.
+
+---
+
+# 15. FUTURE DEVELOPMENT
+
+Jika NexaDesk nantinya dikembangkan menjadi produk yang lebih besar, beberapa kemungkinan pengembangan:
+
+1. Migrasi localStorage ke database server.
+2. Backend Node.js atau Supabase.
+3. Authentication sungguhan.
+4. Multi-user dan multi-device.
+5. Cloud backup.
+6. Subscription management.
+7. Payment gateway.
+8. Advanced AI analytics.
+9. Multi-branch business management.
+10. Mobile application.
+
+Arsitektur awal harus dibuat modular agar migrasi tersebut tidak mengharuskan penulisan ulang seluruh frontend.
+
+---
+
+# 16. FINAL PRODUCT PRINCIPLES
+
+Seluruh proses pengembangan NexaDesk wajib mengikuti prinsip berikut:
+
+**1. Functionality First**
+
+Setiap fitur harus benar-benar berfungsi, bukan hanya memiliki tampilan visual.
+
+**2. Consistent Data**
+
+Seluruh modul harus menggunakan sumber data yang sama.
+
+**3. Integrated Workflow**
+
+Setiap perubahan pada satu modul harus memperbarui modul lain yang relevan.
+
+**4. Premium User Experience**
+
+Desain harus konsisten, modern, elegan, dan profesional.
+
+**5. Maintainable Architecture**
+
+Kode harus modular, mudah dipahami, dan mudah dikembangkan.
+
+**6. Local-First Storage**
+
+Seluruh data operasional disimpan secara lokal menggunakan JSON dan localStorage.
+
+**7. Data Portability**
+
+Pengguna memiliki kendali untuk mengekspor, mencadangkan, dan memulihkan data.
+
+**8. Future Scalability**
+
+Walaupun belum menggunakan backend, arsitektur harus memungkinkan pengembangan menuju sistem full-stack.
+
+---
+
+# 17. PROJECT DEFINITION SUMMARY
+
+| Aspect | Specification |
+|---|---|
+| Product | NexaDesk |
+| Category | Business Management |
+| Platform | Web Application |
+| Development | Frontend-First |
+| Framework | React + TypeScript |
+| Styling | Tailwind CSS |
+| Storage | JSON + localStorage |
+| Backend | Not included |
+| Database Server | Not included |
+| Charts | Recharts |
+| Excel Export | XLSX |
+| JSON Backup | Supported |
+| AI | Gemini API, optional |
+| Design | Modern Minimalist Premium |
+| Primary Theme | Light |
+| Demo Business | Coffee Shop |
+| Target Users | Small Business Owners |
+
+**END OF DOCUMENT**
+
+NexaDesk — One Platform. Complete Business Control.
